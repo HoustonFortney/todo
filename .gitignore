@@ -1,0 +1,14 @@
+# IDE
+.idea
+
+# Python virtual environment
+/venv
+
+# Python cache files
+__pycache__
+
+# Webpack compilation output
+/todo_app/static/dist/
+
+# Installed node packages
+node_modules/

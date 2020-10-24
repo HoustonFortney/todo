@@ -1,0 +1,10 @@
+from flask import Blueprint
+from flask_restx import Api
+
+from .tasks import api as tasks_api
+
+
+api_blueprint = Blueprint('api_blueprint', __name__)
+api = Api(api_blueprint, debug=True)
+
+api.add_namespace(tasks_api)
