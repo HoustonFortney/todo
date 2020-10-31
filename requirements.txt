@@ -3,3 +3,5 @@ Flask-DebugToolbar==0.11.0
 flask-mongoengine==0.9.5
 flask-restx==0.2.0
 pymongo
+mongomock
+freezegun

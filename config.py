@@ -2,6 +2,8 @@ class BaseConfig:
     APP_NAME = 'TODO App'
     SERVER_NAME = 'todoapp.local:5000'
 
+    RESTX_MASK_SWAGGER = False
+
 
 class DebugConfig(BaseConfig):
     DEBUG = True
@@ -22,6 +24,14 @@ class DebugConfig(BaseConfig):
         'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
         'flask_debugtoolbar.panels.logger.LoggingPanel',
     ]
+
+
+class TestConfig(BaseConfig):
+    TESTING = True
+
+    MONGODB_SETTINGS = {
+        'host': 'mongomock://localhost'
+    }
 
 
 class ProductionConfig(BaseConfig):
