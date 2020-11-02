@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/HoustonFortney/todo#readme",
   "dependencies": {
+    "bootstrap": "^4.5.3",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
