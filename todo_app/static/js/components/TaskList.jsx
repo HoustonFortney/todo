@@ -106,25 +106,34 @@ class TaskListItem extends React.Component {
         this.cancelEditing = this.cancelEditing.bind(this);
         this.saveEdits = this.saveEdits.bind(this);
         this.toggleComplete = this.toggleComplete.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
 
         this.state = {
             expanded: false,
-            editing: false
+            editing: false,
+            editTask: {
+                id: this.props.task.id,
+                name: this.props.task.name
+            }
         };
     }
 
     toggleExpanded() {
-        console.log(this.state.expanded);
         this.setState({expanded: !this.state.expanded});
     }
 
     startEditing() {
-
         this.setState({editing: true});
     }
 
     cancelEditing() {
-        this.setState({editing: false});
+        this.setState({
+            editing: false,
+            editTask: {
+                id: this.props.task.id,
+                name: this.props.task.name
+            }
+        });
     }
 
     saveEdits(task) {
@@ -137,6 +146,13 @@ class TaskListItem extends React.Component {
         this.props.onUpdate({id: task.id, complete: !task.complete});
     }
 
+    handleInputChange(event) {
+        let editTask = this.state.editTask;
+        const target = event.target;
+        editTask[target.name] = target.value;
+        this.setState({editTask: editTask});
+    }
+
     render() {
         const task = this.props.task;
         return (
@@ -146,13 +162,16 @@ class TaskListItem extends React.Component {
                         {task.complete ? <i className="far fa-check-square"/> : <i className="far fa-square"/>}
                     </span>
                     <Button variant="link" className={task.complete ? "task-name-complete" : "task-name"}
-                            onClick={this.toggleExpanded}>{task.name}</Button>
+                            onClick={this.toggleExpanded}>{this.state.editTask.name}</Button>
                 </div>
                 <Collapse in={this.state.expanded}>
                     <div>
                         <Card.Body>
                             {this.state.editing ?
-                                <EditTask task={task} onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits}/> :
+                                <EditTask task={this.state.editTask}
+                                          onCancelEdit={this.cancelEditing}
+                                          onSaveEdit={this.saveEdits}
+                                          handleInputChange={this.handleInputChange}/> :
                                 <TaskDetails task={task} onEdit={this.startEditing} onDelete={this.props.onDelete}/>}
                         </Card.Body>
                     </div>
@@ -174,52 +193,30 @@ const TaskDetails = (props) =>
         </span>
     </div>
 
-class EditTask extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.handleInputChange = this.handleInputChange.bind(this);
-
-        this.state = {
-            id: props.task.id,
-            name: props.task.name
-        };
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        this.setState({[target.name]: target.value});
-    }
-
-    render() {
-        return (
-            <div>
-                <span className="float-right">
-                    <Button variant="outline-secondary" onClick={this.props.onCancelEdit}>
-                        Cancel
-                    </Button>&nbsp;
-                    <Button onClick={() => this.props.onSaveEdit(this.state)}>
-                        <i className="far fa-save"/>&nbsp;Save
-                    </Button>
-                </span>
-                <Form onSubmit={(event) => event.preventDefault()}>
-                    <Form.Group as={Row}>
-                        <Form.Label column sm={1}>Name</Form.Label>
-                        <Col sm={11}>
-                            <Form.Control
-                                id="task-name"
-                                placeholder="New task"
-                                name="name"
-                                value={this.state.name}
-                                onChange={this.handleInputChange}
-                            />
-                        </Col>
-                    </Form.Group>
-                </Form>
-            </div>
-        );
-    }
-}
+const EditTask = (props) =>
+    <div>
+        <span className="float-right">
+            <Button variant="outline-secondary" onClick={props.onCancelEdit}>
+                Cancel
+            </Button>&nbsp;
+            <Button onClick={() => props.onSaveEdit(props.task)}>
+                <i className="far fa-save"/>&nbsp;Save
+            </Button>
+        </span>
+        <Form onSubmit={(event) => event.preventDefault()}>
+            <Form.Group as={Row}>
+                <Form.Label column sm={1}>Name</Form.Label>
+                <Col sm={11}>
+                    <Form.Control
+                        placeholder="New task"
+                        name="name"
+                        value={props.task.name}
+                        onChange={props.handleInputChange}
+                    />
+                </Col>
+            </Form.Group>
+        </Form>
+    </div>
 
 class AddTask extends React.Component {
     constructor(props) {
@@ -258,10 +255,7 @@ class AddTask extends React.Component {
                 <Form inline onSubmit={(event) => event.preventDefault()}>
                     <i className="fas fa-plus"/>
                     <Form.Control
-                        id="new-task-name"
                         placeholder="New task"
-                        aria-label="Task name"
-                        aria-describedby="basic-addon1"
                         name="name"
                         value={this.state.name}
                         onKeyDown={this.handleKeyDown}
