@@ -1,10 +1,35 @@
-button.task-name
-  &:not(:hover):not(:focus)
-    color: black
+@keyframes strikeout
+  0%
+    width: 0
+  100%
+    width: 100%
 
-button.task-name-complete
-  @extend button.task-name
-  text-decoration: line-through
+.task-header
+  span.task-state
+    padding-left: 0
 
-  &:hover, &:focus
-    text-decoration: line-through underline
+  button.task-name
+    &:not(:hover):not(:focus)
+      color: black
+
+  button.task-name-complete
+    @extend button.task-name
+
+    position: relative
+
+    &:after
+      content: ' '
+      position: absolute
+      top: 50%
+      left: 0
+      width: 100%
+      height: 1px
+      background: black
+
+    &.animate
+      &:after
+        animation-name: strikeout
+        animation-duration: 100ms
+        animation-timing-function: linear
+        animation-iteration-count: 1
+        animation-fill-mode: forwards
