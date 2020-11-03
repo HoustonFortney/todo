@@ -1,10 +1,14 @@
 import React from "react";
-import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button";
+import Collapse from "react-bootstrap/Collapse"
 import Form from "react-bootstrap/Form";
+import {ListGroup} from "react-bootstrap";
 import ItemService from "./ItemService.jsx";
 import ConfirmationModal from "./ConfirmationModal.jsx"
+import "../../css/tasklist.sass"
 
 class TaskList extends React.Component {
     constructor(props) {
@@ -72,12 +76,16 @@ class TaskList extends React.Component {
 
         return (
             <div>
-                <AddTask onCreate={this.createTask}/>
-                {tasks.map(task => (
-                    <TaskListItem task={task} key={task.id}
-                                  onUpdate={this.updateTask}
-                                  onDelete={this.confirmDeleteTask}/>
-                ))}
+                <Card>
+                    <ListGroup>
+                        <AddTask onCreate={this.createTask}/>
+                        {tasks.map(task => (
+                            <TaskListItem task={task} key={task.id}
+                                          onUpdate={this.updateTask}
+                                          onDelete={this.confirmDeleteTask}/>
+                        ))}
+                    </ListGroup>
+                </Card>
                 {this.state.deleteTask && <ConfirmationModal show={this.state.deletePending}
                                                              title="Delete task"
                                                              message={"Are you sure you want to delete " + this.state.deleteTask.name + "?"}
@@ -93,17 +101,25 @@ class TaskListItem extends React.Component {
     constructor(props) {
         super(props);
 
+        this.toggleExpanded = this.toggleExpanded.bind(this);
         this.startEditing = this.startEditing.bind(this);
         this.cancelEditing = this.cancelEditing.bind(this);
         this.saveEdits = this.saveEdits.bind(this);
         this.toggleComplete = this.toggleComplete.bind(this);
 
         this.state = {
+            expanded: false,
             editing: false
         };
     }
 
+    toggleExpanded() {
+        console.log(this.state.expanded);
+        this.setState({expanded: !this.state.expanded});
+    }
+
     startEditing() {
+
         this.setState({editing: true});
     }
 
@@ -124,23 +140,24 @@ class TaskListItem extends React.Component {
     render() {
         const task = this.props.task;
         return (
-            <Accordion>
-                <Card>
-                    <Card.Header>
-                        <span onClick={this.toggleComplete}>
-                            {task.complete ? <i className="far fa-check-square"/> : <i className="far fa-square"/>}
-                        </span>
-                        <Accordion.Toggle as={Button} variant="link" eventKey={task.id}>{task.name}</Accordion.Toggle>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey={task.id}>
+            <ListGroup.Item>
+                <div>
+                    <span onClick={this.toggleComplete}>
+                        {task.complete ? <i className="far fa-check-square"/> : <i className="far fa-square"/>}
+                    </span>
+                    <Button variant="link" className={task.complete ? "task-name-complete" : "task-name"}
+                            onClick={this.toggleExpanded}>{task.name}</Button>
+                </div>
+                <Collapse in={this.state.expanded}>
+                    <div>
                         <Card.Body>
                             {this.state.editing ?
                                 <EditTask task={task} onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits}/> :
                                 <TaskDetails task={task} onEdit={this.startEditing} onDelete={this.props.onDelete}/>}
                         </Card.Body>
-                    </Accordion.Collapse>
-                </Card>
-            </Accordion>
+                    </div>
+                </Collapse>
+            </ListGroup.Item>
         )
     }
 }
@@ -148,12 +165,13 @@ class TaskListItem extends React.Component {
 const TaskDetails = (props) =>
     <div>
         Created {new Date(props.task.created).toLocaleDateString()}&nbsp;
-        <Button onClick={props.onEdit}>
-            <i className="far fa-edit"/>&nbsp;Edit
-        </Button>&nbsp;
-        <Button variant="danger" onClick={() => props.onDelete(props.task)}>
-            <i className="far fa-trash-alt"/>&nbsp;Delete
-        </Button>
+        <span className="float-right">
+            <Button onClick={props.onEdit}>
+                <i className="far fa-edit"/>&nbsp;Edit</Button>&nbsp;
+            <Button variant="danger" onClick={() => props.onDelete(props.task)}>
+                <i className="far fa-trash-alt"/>&nbsp;Delete
+            </Button>
+        </span>
     </div>
 
 class EditTask extends React.Component {
@@ -176,23 +194,28 @@ class EditTask extends React.Component {
     render() {
         return (
             <div>
-                Name:&nbsp;
-                <Form.Control
-                    id="task-name"
-                    placeholder="New task"
-                    aria-label="Task name"
-                    aria-describedby="basic-addon1"
-                    name="name"
-                    value={this.state.name}
-                    onChange={this.handleInputChange}
-                    required
-                />
-                <Button variant="outline-secondary" onClick={this.props.onCancelEdit}>
-                    Cancel
-                </Button>&nbsp;
-                <Button onClick={() => this.props.onSaveEdit(this.state)}>
-                    <i className="far fa-save"/>&nbsp;Save
-                </Button>
+                <span className="float-right">
+                    <Button variant="outline-secondary" onClick={this.props.onCancelEdit}>
+                        Cancel
+                    </Button>&nbsp;
+                    <Button onClick={() => this.props.onSaveEdit(this.state)}>
+                        <i className="far fa-save"/>&nbsp;Save
+                    </Button>
+                </span>
+                <Form onSubmit={(event) => event.preventDefault()}>
+                    <Form.Group as={Row}>
+                        <Form.Label column sm={1}>Name</Form.Label>
+                        <Col sm={11}>
+                            <Form.Control
+                                id="task-name"
+                                placeholder="New task"
+                                name="name"
+                                value={this.state.name}
+                                onChange={this.handleInputChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                </Form>
             </div>
         );
     }
@@ -222,17 +245,20 @@ class AddTask extends React.Component {
     }
 
     onCreate() {
-        this.props.onCreate(this.state);
+        if (this.state.name) {
+            this.props.onCreate(this.state);
+        }
         this.setState({name: ""})
     }
 
     render() {
         return (
-            <Card>
-                <Card.Header>
+            <ListGroup.Item>
+
+                <Form inline onSubmit={(event) => event.preventDefault()}>
                     <i className="fas fa-plus"/>
                     <Form.Control
-                        id="task-name"
+                        id="new-task-name"
                         placeholder="New task"
                         aria-label="Task name"
                         aria-describedby="basic-addon1"
@@ -240,13 +266,13 @@ class AddTask extends React.Component {
                         value={this.state.name}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleInputChange}
-                        required
                     />
-                    <Button type="submit" className="mb-2" onClick={this.onCreate}>
+                    <Button type="submit" onClick={this.onCreate}>
                         Create
                     </Button>
-                </Card.Header>
-            </Card>
+                </Form>
+
+            </ListGroup.Item>
         );
     }
 }
