@@ -7,6 +7,10 @@ module.exports = {
             {
                 test: /\.jsx$/,
                 use: "babel-loader"
+            },
+            {
+                test: /\.sass$/,
+                use:['style-loader','css-loader', 'sass-loader']
             }
         ]
     },

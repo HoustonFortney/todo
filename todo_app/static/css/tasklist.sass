@@ -1,0 +1,10 @@
+button.task-name
+  &:not(:hover):not(:focus)
+    color: black
+
+button.task-name-complete
+  @extend button.task-name
+  text-decoration: line-through
+
+  &:hover, &:focus
+    text-decoration: line-through underline
