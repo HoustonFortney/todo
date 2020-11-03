@@ -112,6 +112,7 @@ class TaskListItem extends React.Component {
         this.state = {
             expanded: false,
             editing: false,
+            doAnimation: false,
             editTask: {
                 id: this.props.task.id,
                 name: this.props.task.name
@@ -149,6 +150,7 @@ class TaskListItem extends React.Component {
     toggleComplete() {
         const task = this.props.task;
         this.props.onUpdate({id: task.id, complete: !task.complete});
+        this.setState({doAnimation: true});
     }
 
     handleInputChange(event) {
@@ -160,13 +162,14 @@ class TaskListItem extends React.Component {
 
     render() {
         const task = this.props.task;
+        const buttonClass = (task.complete ? "task-name-complete" : "task-name") + (this.state.doAnimation ? " animate" : "");
         return (
             <ListGroup.Item>
-                <div>
-                    <span onClick={this.toggleComplete}>
+                <div className="task-header">
+                    <span className="btn task-state" onClick={this.toggleComplete}>
                         {task.complete ? <i className="far fa-check-square"/> : <i className="far fa-square"/>}
                     </span>
-                    <Button variant="link" className={task.complete ? "task-name-complete" : "task-name"}
+                    <Button variant="link" className={buttonClass}
                             onClick={this.toggleExpanded}>{this.state.editTask.name}</Button>
                     {this.state.expanded && (this.state.editing ?
                         <CancelSaveButtons onCancelEdit={this.cancelEditing}
@@ -210,7 +213,7 @@ const CancelSaveButtons = (props) =>
 
 const TaskDetails = (props) =>
     <div>
-        Created {new Date(props.task.created).toLocaleDateString()}&nbsp;
+        <span className="text-muted">Created {new Date(props.task.created).toLocaleDateString()}</span>
     </div>
 
 const EditTask = (props) =>
