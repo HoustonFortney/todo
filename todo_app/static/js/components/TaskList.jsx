@@ -253,6 +253,10 @@ class AddTask extends React.Component {
     handleKeyDown(event) {
         if (event.key === "Enter") {
             this.onCreate();
+
+            // Clear native autocomplete
+            event.target.blur();
+            event.target.focus();
         }
     }
 
@@ -266,21 +270,19 @@ class AddTask extends React.Component {
     render() {
         return (
             <ListGroup.Item>
-
                 <Form inline onSubmit={(event) => event.preventDefault()}>
-                    <i className="fas fa-plus"/>
+                    <span className="btn task-add"><i className="fas fa-plus"/></span>
                     <Form.Control
                         placeholder="New task"
                         name="name"
                         value={this.state.name}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleInputChange}
-                    />
+                    />&nbsp;
                     <Button type="submit" onClick={this.onCreate}>
                         Create
                     </Button>
                 </Form>
-
             </ListGroup.Item>
         );
     }
