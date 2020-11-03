@@ -105,6 +105,7 @@ class TaskListItem extends React.Component {
         this.startEditing = this.startEditing.bind(this);
         this.cancelEditing = this.cancelEditing.bind(this);
         this.saveEdits = this.saveEdits.bind(this);
+        this.deleteTask = this.deleteTask.bind(this);
         this.toggleComplete = this.toggleComplete.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
 
@@ -136,9 +137,13 @@ class TaskListItem extends React.Component {
         });
     }
 
-    saveEdits(task) {
-        this.props.onUpdate(task);
+    saveEdits() {
+        this.props.onUpdate(this.state.editTask);
         this.setState({editing: false});
+    }
+
+    deleteTask() {
+        this.props.onDelete(this.props.task);
     }
 
     toggleComplete() {
@@ -163,16 +168,18 @@ class TaskListItem extends React.Component {
                     </span>
                     <Button variant="link" className={task.complete ? "task-name-complete" : "task-name"}
                             onClick={this.toggleExpanded}>{this.state.editTask.name}</Button>
+                    {this.state.expanded && (this.state.editing ?
+                        <CancelSaveButtons onCancelEdit={this.cancelEditing}
+                                           onSaveEdit={this.saveEdits}/> :
+                        <EditDeleteButtons onEdit={this.startEditing}
+                                           onDelete={this.deleteTask}/>)}
                 </div>
                 <Collapse in={this.state.expanded}>
                     <div>
                         <Card.Body>
                             {this.state.editing ?
-                                <EditTask task={this.state.editTask}
-                                          onCancelEdit={this.cancelEditing}
-                                          onSaveEdit={this.saveEdits}
-                                          handleInputChange={this.handleInputChange}/> :
-                                <TaskDetails task={task} onEdit={this.startEditing} onDelete={this.props.onDelete}/>}
+                                <EditTask task={this.state.editTask} handleInputChange={this.handleInputChange}/> :
+                                <TaskDetails task={task}/>}
                         </Card.Body>
                     </div>
                 </Collapse>
@@ -181,28 +188,33 @@ class TaskListItem extends React.Component {
     }
 }
 
+const EditDeleteButtons = (props) =>
+    <span className="float-right">
+        <Button onClick={props.onEdit}>
+            <i className="far fa-edit"/>&nbsp;Edit
+        </Button>&nbsp;
+        <Button variant="danger" onClick={props.onDelete}>
+            <i className="far fa-trash-alt"/>&nbsp;Delete
+        </Button>
+    </span>
+
+const CancelSaveButtons = (props) =>
+    <span className="float-right">
+        <Button variant="outline-secondary" onClick={props.onCancelEdit}>
+            Cancel
+        </Button>&nbsp;
+        <Button onClick={props.onSaveEdit}>
+            <i className="far fa-save"/>&nbsp;Save
+        </Button>
+    </span>
+
 const TaskDetails = (props) =>
     <div>
         Created {new Date(props.task.created).toLocaleDateString()}&nbsp;
-        <span className="float-right">
-            <Button onClick={props.onEdit}>
-                <i className="far fa-edit"/>&nbsp;Edit</Button>&nbsp;
-            <Button variant="danger" onClick={() => props.onDelete(props.task)}>
-                <i className="far fa-trash-alt"/>&nbsp;Delete
-            </Button>
-        </span>
     </div>
 
 const EditTask = (props) =>
     <div>
-        <span className="float-right">
-            <Button variant="outline-secondary" onClick={props.onCancelEdit}>
-                Cancel
-            </Button>&nbsp;
-            <Button onClick={() => props.onSaveEdit(props.task)}>
-                <i className="far fa-save"/>&nbsp;Save
-            </Button>
-        </span>
         <Form onSubmit={(event) => event.preventDefault()}>
             <Form.Group as={Row}>
                 <Form.Label column sm={1}>Name</Form.Label>
