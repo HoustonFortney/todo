@@ -169,7 +169,7 @@ class TaskListItem extends React.Component {
         return (
             <ListGroup.Item>
                 <div className="task-header">
-                    <span className="btn task-state" onClick={this.toggleComplete}>
+                    <span className="btn" onClick={this.toggleComplete}>
                         {task.complete ? <i className="far fa-check-square"/> : <i className="far fa-square"/>}
                     </span>
                     <Button variant="link" className={buttonClass}
@@ -286,7 +286,7 @@ class AddTask extends React.Component {
         return (
             <ListGroup.Item>
                 <Form inline onSubmit={(event) => event.preventDefault()}>
-                    <span className="btn task-add"><i className="fas fa-plus"/></span>
+                    <span className="btn"><i className="fas fa-plus"/></span>
                     <Form.Control
                         placeholder="New task"
                         name="name"
