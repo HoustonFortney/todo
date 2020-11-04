@@ -5,10 +5,11 @@ import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse"
 import Form from "react-bootstrap/Form";
-import {ListGroup} from "react-bootstrap";
+import ListGroup from "react-bootstrap/ListGroup";
 import ItemService from "./ItemService.jsx";
 import ConfirmationModal from "./ConfirmationModal.jsx"
 import "../../css/tasklist.sass"
+import {renderSanitizedMarkdown} from "./Markdown.jsx";
 
 class TaskList extends React.Component {
     constructor(props) {
@@ -115,7 +116,8 @@ class TaskListItem extends React.Component {
             doAnimation: false,
             editTask: {
                 id: this.props.task.id,
-                name: this.props.task.name
+                name: this.props.task.name,
+                notes: this.props.task.notes
             }
         };
     }
@@ -133,7 +135,8 @@ class TaskListItem extends React.Component {
             editing: false,
             editTask: {
                 id: this.props.task.id,
-                name: this.props.task.name
+                name: this.props.task.name,
+                notes: this.props.task.notes
             }
         });
     }
@@ -172,10 +175,8 @@ class TaskListItem extends React.Component {
                     <Button variant="link" className={buttonClass}
                             onClick={this.toggleExpanded}>{this.state.editTask.name}</Button>
                     {this.state.expanded && (this.state.editing ?
-                        <CancelSaveButtons onCancelEdit={this.cancelEditing}
-                                           onSaveEdit={this.saveEdits}/> :
-                        <EditDeleteButtons onEdit={this.startEditing}
-                                           onDelete={this.deleteTask}/>)}
+                        <CancelSaveButtons onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits}/> :
+                        <EditDeleteButtons onEdit={this.startEditing} onDelete={this.deleteTask}/>)}
                 </div>
                 <Collapse in={this.state.expanded}>
                     <div>
@@ -213,6 +214,7 @@ const CancelSaveButtons = (props) =>
 
 const TaskDetails = (props) =>
     <div>
+        <div dangerouslySetInnerHTML={{__html: renderSanitizedMarkdown(props.task.notes)}}/>
         <span className="text-muted">Created {new Date(props.task.created).toLocaleDateString()}</span>
     </div>
 
@@ -228,6 +230,19 @@ const EditTask = (props) =>
                         value={props.task.name}
                         onChange={props.handleInputChange}
                     />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row}>
+                <Form.Label column sm={1}>Notes</Form.Label>
+                <Col sm={11}>
+                    <Form.Control
+                        as="textarea"
+                        rows={8}
+                        name="notes"
+                        value={props.task.notes}
+                        onChange={props.handleInputChange}
+                    />
+                    <div className="p-3" dangerouslySetInnerHTML={{__html: renderSanitizedMarkdown(props.task.notes)}}/>
                 </Col>
             </Form.Group>
         </Form>
