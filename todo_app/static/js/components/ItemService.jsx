@@ -64,8 +64,8 @@ class ItemService {
             });
     }
 
-    updateItem(item) {
-        return fetch(this.api_url + item.id, {
+    updateItem(item, params={}) {
+        return fetch(this.api_url + item.id + '?' + new URLSearchParams(params), {
             method: "PUT",
             mode: "cors",
             headers: {

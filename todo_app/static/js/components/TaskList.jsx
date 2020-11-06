@@ -10,6 +10,7 @@ import ItemService from "./ItemService.jsx";
 import ConfirmationModal from "./ConfirmationModal.jsx"
 import "../../css/tasklist.sass"
 import {renderSanitizedMarkdown} from "./Markdown.jsx";
+import {Draggable, Droppable, DragDropContext} from "react-beautiful-dnd";
 
 class TaskList extends React.Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class TaskList extends React.Component {
         this.deleteTask = this.deleteTask.bind(this);
         this.confirmDeleteTask = this.confirmDeleteTask.bind(this);
         this.cancelDeleteTask = this.cancelDeleteTask.bind(this);
+        this.updateTaskOrder = this.updateTaskOrder.bind(this);
 
         this.state = {
             tasks: null,
@@ -71,22 +73,58 @@ class TaskList extends React.Component {
         this.setState({deletePending: false, deleteTask: null});
     }
 
+    updateTaskOrder(result) {
+        if (!result.destination) return; // Guard drop to nowhere
+
+        const from_index = result.source.index;
+        const to_index = result.destination.index;
+
+        // Do local move
+        let taskList = this.state.tasks;
+        taskList.splice(to_index, 0, taskList.splice(from_index, 1)[0]);
+        this.setState({tasks: taskList});
+
+        // Initiate remote move
+        let after_id;
+        if (to_index > 0) {
+            after_id = this.state.tasks[to_index - 1].id;
+        } else {
+            after_id = '';
+        }
+        this.itemService.updateItem({id: result.draggableId}, {after: after_id});
+    }
+
     render() {
         const tasks = this.state.tasks;
         if (!tasks) return null;
 
         return (
             <div>
-                <Card>
-                    <ListGroup>
-                        <AddTask onCreate={this.createTask}/>
-                        {tasks.map(task => (
-                            <TaskListItem task={task} key={task.id}
-                                          onUpdate={this.updateTask}
-                                          onDelete={this.confirmDeleteTask}/>
-                        ))}
-                    </ListGroup>
-                </Card>
+                <DragDropContext onDragEnd={this.updateTaskOrder}>
+                    <Droppable droppableId="droppable">
+                        {(provided, snapshot) => (
+                            <Card {...provided.droppableProps} ref={provided.innerRef}>
+                                <ListGroup>
+                                    <AddTask onCreate={this.createTask}/>
+                                    {tasks.map((task, index) => (
+                                        <Draggable key={task.id} draggableId={task.id} index={index}>
+                                            {(provided, snapshot) => (
+                                                <div ref={provided.innerRef}
+                                                     {...provided.draggableProps}
+                                                     {...provided.dragHandleProps}>
+                                                    <TaskListItem task={task}
+                                                                  onUpdate={this.updateTask}
+                                                                  onDelete={this.confirmDeleteTask}/>
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                </ListGroup>
+                                {provided.placeholder}
+                            </Card>
+                        )}
+                    </Droppable>
+                </DragDropContext>
                 {this.state.deleteTask && <ConfirmationModal show={this.state.deletePending}
                                                              title="Delete task"
                                                              message={"Are you sure you want to delete " + this.state.deleteTask.name + "?"}
