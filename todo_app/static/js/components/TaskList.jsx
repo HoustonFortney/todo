@@ -195,20 +195,20 @@ class TaskListItem extends React.Component {
 const EditDeleteButtons = (props) =>
     <span className="float-right">
         <Button onClick={props.onEdit}>
-            <i className="far fa-edit"/>&nbsp;Edit
+            <i className="far fa-edit"/><span className="d-none d-md-inline-block">&nbsp;Edit</span>
         </Button>&nbsp;
         <Button variant="danger" onClick={props.onDelete}>
-            <i className="far fa-trash-alt"/>&nbsp;Delete
+            <i className="far fa-trash-alt"/><span className="d-none d-md-inline-block">&nbsp;Delete</span>
         </Button>
     </span>
 
 const CancelSaveButtons = (props) =>
     <span className="float-right">
         <Button variant="outline-secondary" onClick={props.onCancelEdit}>
-            Cancel
+            <i className="fas fa-undo"></i><span className="d-none d-md-inline-block">&nbsp;Cancel</span>
         </Button>&nbsp;
         <Button onClick={props.onSaveEdit}>
-            <i className="far fa-save"/>&nbsp;Save
+            <i className="far fa-save"/><span className="d-none d-md-inline-block">&nbsp;Save</span>
         </Button>
     </span>
 
@@ -288,6 +288,7 @@ class AddTask extends React.Component {
                 <Form inline onSubmit={(event) => event.preventDefault()}>
                     <span className="btn"><i className="fas fa-plus"/></span>
                     <Form.Control
+                        className="w-75"
                         placeholder="New task"
                         name="name"
                         value={this.state.name}
