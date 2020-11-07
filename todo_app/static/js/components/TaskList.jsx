@@ -358,6 +358,7 @@ class AddTask extends React.Component {
                         className="w-75"
                         placeholder="New task"
                         name="name"
+                        autocomplete="off"
                         value={this.state.name}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleInputChange}
