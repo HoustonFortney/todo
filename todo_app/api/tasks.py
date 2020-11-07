@@ -37,12 +37,12 @@ class TaskList(Resource):
         task.created = datetime.now()
         task.complete = False
 
-        if after_task_id is not None:
+        if after_task_id is not None and after_task_id:
             after_task = Task.objects(id=after_task_id).first()
             if after_task is None:
                 abort(400, f'After task with id {after_task_id} not found.')
         else:
-            # after_task not supplied, so insert at top (after nothing)
+            # after_task not supplied or empty, so insert at top (after nothing)
             after_task = None
 
         insert_after(task, after_task)

@@ -29,8 +29,8 @@ class ItemService {
             });
     }
 
-    createItem(newitem) {
-        return fetch(this.api_url, {
+    createItem(newitem, params={}) {
+        return fetch(this.api_url + '?' + new URLSearchParams(params), {
             method: "POST",
             mode: "cors",
             headers: {
