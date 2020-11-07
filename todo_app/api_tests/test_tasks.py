@@ -124,6 +124,18 @@ class TestCreateTask(TestBase):
         names = [task['name'] for task in response.json]
         self.assertListEqual(names, ['Top', 'Middle', 'Bottom'])
 
+    def test_create_task_after_nothing(self):
+        Task(name='Bottom', complete=False, priority='1000').save()
+        test_task_data = {'name': 'Top'}
+        self.client.post(f'{self.api_path}/tasks/?after=',
+                         data=json.dumps(test_task_data),
+                         content_type='application/json')
+
+        response = self.client.get(f'{self.api_path}/tasks/')
+
+        names = [task['name'] for task in response.json]
+        self.assertListEqual(names, ['Top', 'Bottom'])
+
     def test_after_not_found(self):
         response = self.client.post(f'{self.api_path}/tasks/?after=5c9a26faf9db831cf8ab3326')
 

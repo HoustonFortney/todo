@@ -28,7 +28,8 @@ class TaskList extends React.Component {
         this.state = {
             tasks: null,
             deletePending: false,
-            deleteTask: null
+            deleteTask: null,
+            adderIndex: 0
         };
     }
 
@@ -44,7 +45,9 @@ class TaskList extends React.Component {
     }
 
     createTask(newTask) {
-        this.itemService.createItem(newTask).then(item => {
+        const adderIndex = this.state.adderIndex;
+        const afterId = (adderIndex > 0) ? this.state.tasks[adderIndex - 1].id : '';
+        this.itemService.createItem(newTask, {after: afterId}).then(item => {
                 this.getTasks();
             }
         );
@@ -76,27 +79,68 @@ class TaskList extends React.Component {
     updateTaskOrder(result) {
         if (!result.destination) return; // Guard drop to nowhere
 
-        const from_index = result.source.index;
-        const to_index = result.destination.index;
+        let fromIndex = result.source.index;
+        let toIndex = result.destination.index;
+
+        // Handle movement of task adder
+        if (result.draggableId === 'taskadder') {
+            this.setState({adderIndex: toIndex});
+            return;
+        }
+
+        // See if adder needs to move
+        let newAdderIndex = this.state.adderIndex;
+        if (toIndex <= newAdderIndex && fromIndex > newAdderIndex) {
+            newAdderIndex++;
+        } else if (toIndex >= newAdderIndex && fromIndex < newAdderIndex) {
+            newAdderIndex--;
+        }
+
+        // Compute indexes if there were no adder
+        if (fromIndex > this.state.adderIndex) fromIndex--;
+        if (toIndex > newAdderIndex) toIndex--;
 
         // Do local move
-        let taskList = this.state.tasks;
-        taskList.splice(to_index, 0, taskList.splice(from_index, 1)[0]);
-        this.setState({tasks: taskList});
+        let taskList = [...this.state.tasks];
+        taskList.splice(toIndex, 0, taskList.splice(fromIndex, 1)[0]);
+        this.setState({tasks: taskList, adderIndex: newAdderIndex});
 
-        // Initiate remote move
-        let after_id;
-        if (to_index > 0) {
-            after_id = this.state.tasks[to_index - 1].id;
-        } else {
-            after_id = '';
+        // Do remote move
+        let afterId = '';
+        if (toIndex > 0) {
+            if (toIndex < fromIndex) toIndex--;
+            afterId = this.state.tasks[toIndex].id;
         }
-        this.itemService.updateItem({id: result.draggableId}, {after: after_id});
+        this.itemService.updateItem({id: result.draggableId}, {after: afterId}).then(item => {
+                this.getTasks();
+            }
+        );
     }
 
     render() {
-        const tasks = this.state.tasks;
-        if (!tasks) return null;
+        if (!this.state.tasks) return null;
+        let tasks = [...this.state.tasks];
+
+        tasks.splice(this.state.adderIndex, 0, {id: 'taskadder'});
+
+        const taskList = <ListGroup>
+            {tasks.map((task, index) => (
+                <Draggable key={task.id} draggableId={task.id} index={index}>
+                    {(provided, snapshot) => (
+                        <div ref={provided.innerRef}
+                             {...provided.draggableProps}
+                             {...provided.dragHandleProps}>
+                            {task.id === 'taskadder' ?
+                                <AddTask onCreate={this.createTask}/> :
+                                <TaskListItem task={task}
+                                              onUpdate={this.updateTask}
+                                              onDelete={this.confirmDeleteTask}/>
+                            }
+                        </div>
+                    )}
+                </Draggable>
+            ))}
+        </ListGroup>
 
         return (
             <div>
@@ -104,22 +148,7 @@ class TaskList extends React.Component {
                     <Droppable droppableId="droppable">
                         {(provided, snapshot) => (
                             <Card {...provided.droppableProps} ref={provided.innerRef}>
-                                <ListGroup>
-                                    <AddTask onCreate={this.createTask}/>
-                                    {tasks.map((task, index) => (
-                                        <Draggable key={task.id} draggableId={task.id} index={index}>
-                                            {(provided, snapshot) => (
-                                                <div ref={provided.innerRef}
-                                                     {...provided.draggableProps}
-                                                     {...provided.dragHandleProps}>
-                                                    <TaskListItem task={task}
-                                                                  onUpdate={this.updateTask}
-                                                                  onDelete={this.confirmDeleteTask}/>
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                </ListGroup>
+                                {taskList}
                                 {provided.placeholder}
                             </Card>
                         )}
