@@ -11,6 +11,7 @@ task_model = api.model('task', {
     'id': fields.String(readonly=True),
     'name': fields.String(),
     'complete': fields.Boolean(),
+    'location': fields.String(),
     'notes': fields.String(),
     'created': fields.DateTime(readonly=True)
 })
