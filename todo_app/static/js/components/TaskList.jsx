@@ -185,6 +185,7 @@ class TaskListItem extends React.Component {
             editTask: {
                 id: this.props.task.id,
                 name: this.props.task.name,
+                location: this.props.task.location,
                 notes: this.props.task.notes
             }
         };
@@ -204,6 +205,7 @@ class TaskListItem extends React.Component {
             editTask: {
                 id: this.props.task.id,
                 name: this.props.task.name,
+                location: this.props.task.location,
                 notes: this.props.task.notes
             }
         });
@@ -282,6 +284,7 @@ const CancelSaveButtons = (props) =>
 
 const TaskDetails = (props) =>
     <div>
+        {props.task.location && <p><strong>Location</strong>&nbsp;{props.task.location}</p>}
         <div dangerouslySetInnerHTML={{__html: renderSanitizedMarkdown(props.task.notes)}}/>
         <span className="text-muted">Created {new Date(props.task.created).toLocaleDateString()}</span>
     </div>
@@ -296,6 +299,16 @@ const EditTask = (props) =>
                         placeholder="New task"
                         name="name"
                         value={props.task.name}
+                        onChange={props.handleInputChange}
+                    />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row}>
+                <Form.Label column sm={2}>Location</Form.Label>
+                <Col sm={10}>
+                    <Form.Control
+                        name="location"
+                        value={props.task.location}
                         onChange={props.handleInputChange}
                     />
                 </Col>
