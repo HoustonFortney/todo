@@ -4,11 +4,10 @@ import Button from "react-bootstrap/Button";
 import React from "react";
 
 const TextWithInfo = (props) => {
-    const InfoTooltip = (props) =>
-        <Popover id="markdown-tooltip" {...props}>
+    const InfoTooltip = (innerProps) =>
+        <Popover id="info-tooltip" {...innerProps}>
             <Popover.Title>{props.title}</Popover.Title>
             <Popover.Content>
-                Supports <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">markdown</a>.
                 {props.children}
             </Popover.Content>
         </Popover>
