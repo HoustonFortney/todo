@@ -10,7 +10,8 @@ import ItemService from "./ItemService.jsx";
 import ConfirmationModal from "./ConfirmationModal.jsx"
 import "../../css/tasklist.sass"
 import {renderSanitizedMarkdown} from "./Markdown.jsx";
-import {Draggable, Droppable, DragDropContext} from "react-beautiful-dnd";
+import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import TextWithInfo from "./TextWithInfo.jsx";
 
 class TaskList extends React.Component {
     constructor(props) {
@@ -289,8 +290,8 @@ const EditTask = (props) =>
     <div>
         <Form onSubmit={(event) => event.preventDefault()}>
             <Form.Group as={Row}>
-                <Form.Label column sm={1}>Name</Form.Label>
-                <Col sm={11}>
+                <Form.Label column sm={2}>Name</Form.Label>
+                <Col sm={10}>
                     <Form.Control
                         placeholder="New task"
                         name="name"
@@ -300,8 +301,12 @@ const EditTask = (props) =>
                 </Col>
             </Form.Group>
             <Form.Group as={Row}>
-                <Form.Label column sm={1}>Notes</Form.Label>
-                <Col sm={11}>
+                <Form.Label column sm={2}>
+                    <TextWithInfo text="Notes" title="Task notes">
+                        Supports <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">markdown</a>.
+                    </TextWithInfo>
+                </Form.Label>
+                <Col sm={10}>
                     <Form.Control
                         as="textarea"
                         rows={8}
@@ -358,7 +363,7 @@ class AddTask extends React.Component {
                         className="w-75"
                         placeholder="New task"
                         name="name"
-                        autocomplete="off"
+                        autoComplete="off"
                         value={this.state.name}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleInputChange}
