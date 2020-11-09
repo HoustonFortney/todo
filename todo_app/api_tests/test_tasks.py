@@ -36,6 +36,7 @@ class TestGetTask(TestBase):
         response = self.client.get(f'{self.api_path}/tasks/{test_task.id}')
 
         self.assertEqual(response.status_code, 200)
+        self.assertIn('id', response.json)
         self.assertEqual(response.json['name'], test_task.name)
         self.assertEqual(response.json['complete'], test_task.complete)
 
@@ -91,6 +92,8 @@ class TestCreateTask(TestBase):
         self.assertTrue(all(item in response.json.items() for item in test_task_data.items()))
         self.assertFalse(response.json['complete'])
         self.assertEqual(response.json['completed'], None)
+        self.assertEqual(response.json['location'], '')
+        self.assertEqual(response.json['notes'], '')
 
     def test_list_is_updated(self):
         test_task_data = {'name': 'Test task'}
@@ -168,7 +171,10 @@ class TestUpdateTask(TestBase):
         test_task = Task(name='Old name', complete=False, priority='0')
         test_task.save()
 
-        new_task_data = {'name': 'New name', 'complete': True}
+        new_task_data = {'name': 'New name',
+                         'complete': True,
+                         'location': 'The moon',
+                         'notes': '**Some markdown**'}
         response = self.client.put(f'{self.api_path}/tasks/{test_task.id}',
                                    data=json.dumps(new_task_data),
                                    content_type='application/json')
