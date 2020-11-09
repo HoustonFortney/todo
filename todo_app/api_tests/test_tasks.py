@@ -28,6 +28,14 @@ class TestBase(unittest.TestCase):
         self.ctx.pop()
 
 
+class TestValidationErrorHandling(TestBase):
+    def test_invalid_id(self):
+        response = self.client.get(f'{self.api_path}/tasks/asdf')
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('message', response.json)
+
+
 class TestGetTask(TestBase):
     def test_get_task(self):
         test_task = Task(name=f'Test task', complete=False, priority='0')
