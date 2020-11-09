@@ -1,11 +1,13 @@
 import json
 import unittest
-from datetime import datetime
+from datetime import datetime, timedelta
 from freezegun import freeze_time
 
 from config import TestConfig
 from todo_app import create_app, db
 from todo_app.models import Task
+
+time_format = '%Y-%m-%dT%H:%M:%S'
 
 
 class TestBase(unittest.TestCase):
@@ -88,6 +90,7 @@ class TestCreateTask(TestBase):
         self.assertEqual(response.status_code, 201)
         self.assertTrue(all(item in response.json.items() for item in test_task_data.items()))
         self.assertFalse(response.json['complete'])
+        self.assertEqual(response.json['completed'], None)
 
     def test_list_is_updated(self):
         test_task_data = {'name': 'Test task'}
@@ -101,14 +104,13 @@ class TestCreateTask(TestBase):
 
     def test_task_created_date(self):
         test_task_data = {'name': 'Test task'}
-        test_time = datetime.now()
+        test_time = datetime.now().replace(microsecond=0)
 
         with freeze_time(test_time):
             response = self.client.post(f'{self.api_path}/tasks/',
                                         data=json.dumps(test_task_data),
                                         content_type='application/json')
 
-        time_format = '%Y-%m-%dT%H:%M:%S.%f'
         self.assertEqual(datetime.strptime(response.json['created'], time_format), test_time)
 
     def test_create_task_after(self):
@@ -199,6 +201,53 @@ class TestUpdateTask(TestBase):
 
         new_task_list = self.client.get(f'{self.api_path}/tasks/')
         self.assertEqual(new_task_list.json[1]['id'], str(middle.id))
+
+    def test_completed_date_when_marked_complete(self):
+        test_task = Task(name='Test task', complete=False, priority='0')
+        test_task.save()
+        test_time = datetime.now().replace(microsecond=0)
+
+        with freeze_time(test_time):
+            new_task_data = {'complete': True}
+            response = self.client.put(f'{self.api_path}/tasks/{test_task.id}',
+                                       data=json.dumps(new_task_data),
+                                       content_type='application/json')
+
+        self.assertEqual(datetime.strptime(response.json['completed'], time_format), test_time)
+
+    def test_completed_date_not_updated_if_already_complete(self):
+        test_task = Task(name='Test task', complete=False, priority='0')
+        test_task.save()
+        test_time = datetime.now().replace(microsecond=0) - timedelta(days=3)
+
+        with freeze_time(test_time):
+            new_task_data = {'complete': True}
+            self.client.put(f'{self.api_path}/tasks/{test_task.id}',
+                            data=json.dumps(new_task_data),
+                            content_type='application/json')
+
+        new_task_data = {'complete': True}
+        response = self.client.put(f'{self.api_path}/tasks/{test_task.id}',
+                                   data=json.dumps(new_task_data),
+                                   content_type='application/json')
+
+        self.assertEqual(datetime.strptime(response.json['completed'], time_format), test_time)
+
+    def test_completed_date_removed_when_uncompleted(self):
+        test_task = Task(name='Test task', complete=False, priority='0')
+        test_task.save()
+
+        new_task_data = {'complete': True}
+        self.client.put(f'{self.api_path}/tasks/{test_task.id}',
+                        data=json.dumps(new_task_data),
+                        content_type='application/json')
+
+        new_task_data = {'complete': False}
+        response = self.client.put(f'{self.api_path}/tasks/{test_task.id}',
+                                   data=json.dumps(new_task_data),
+                                   content_type='application/json')
+
+        self.assertEqual(response.json['completed'], None)
 
     def test_not_found(self):
         response = self.client.put(f'{self.api_path}/tasks/5c9a26faf9db831cf8ab3326')
