@@ -286,7 +286,9 @@ const TaskDetails = (props) =>
     <div>
         {props.task.location && <p><strong>Location</strong>&nbsp;{props.task.location}</p>}
         <div dangerouslySetInnerHTML={{__html: renderSanitizedMarkdown(props.task.notes)}}/>
-        <span className="text-muted">Created {new Date(props.task.created).toLocaleDateString()}</span>
+            {props.task.complete ?
+                <span className="text-muted">Completed {new Date(props.task.completed).toLocaleDateString()}</span> :
+                <span className="text-muted">Created {new Date(props.task.created).toLocaleDateString()}</span>}
     </div>
 
 const EditTask = (props) =>

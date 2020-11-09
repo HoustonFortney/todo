@@ -11,6 +11,7 @@ task_model = api.model('task', {
     'id': fields.String(readonly=True),
     'name': fields.String(),
     'complete': fields.Boolean(),
+    'completed': fields.DateTime(readonly=True),
     'location': fields.String(),
     'notes': fields.String(),
     'created': fields.DateTime(readonly=True)
@@ -70,10 +71,19 @@ class TaskResource(Resource):
         args = task_args_parser.parse_args()
         after_task_id = args['after']
 
-        if api.payload:
-            Task.objects(id=id).update(**api.payload)
-
         task = Task.objects(id=id).first_or_404()
+        previous_complete = task.complete
+
+        if api.payload:
+            task.modify(**api.payload)
+
+        if task.complete:
+            if not previous_complete:
+                task.completed = datetime.now()
+        else:
+            task.completed = None
+
+        task.save()
 
         # Update priority only if after_task was supplied
         if after_task_id is not None:
