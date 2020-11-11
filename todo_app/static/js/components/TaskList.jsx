@@ -1,16 +1,10 @@
+import "../../css/tasklist.sass"
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
-import Button from "react-bootstrap/Button";
-import Collapse from "react-bootstrap/Collapse"
-import Form from "react-bootstrap/Form";
-import ListGroup from "react-bootstrap/ListGroup";
+import {Button, Card, Col, Collapse, Form, ListGroup, Row} from "react-bootstrap"
+import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import ItemService from "./ItemService.jsx";
 import ConfirmationModal from "./ConfirmationModal.jsx"
-import "../../css/tasklist.sass"
 import {renderSanitizedMarkdown} from "./Markdown.jsx";
-import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import TextWithInfo from "./TextWithInfo.jsx";
 
 class TaskList extends React.Component {
