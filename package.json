@@ -5,7 +5,8 @@
   "scripts": {
     "start": "npm run watch",
     "watch": "webpack --watch --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "test": "jest ./todo_app/static/js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "@babel/preset-react": "^7.12.1",
     "babel-loader": "^8.1.0",
     "css-loader": "^5.0.0",
+    "jest": "^26.6.3",
     "node-sass": "^5.0.0",
     "sass-loader": "^10.0.5",
     "style-loader": "^2.0.0",
