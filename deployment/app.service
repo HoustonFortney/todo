@@ -1,0 +1,12 @@
+[Unit]
+Description=Gunicorn instance to serve app
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/var/www/app
+ExecStart=/var/www/app/app_venv/bin/gunicorn --config gunicorn.conf.py deployment.wsgi:app
+
+[Install]
+WantedBy=multi-user.target

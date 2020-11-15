@@ -1,0 +1,22 @@
+version: 0.0
+
+os: linux
+
+files:
+  - source: /
+    destination: /var/www/app
+  - source: /deployment/app.service
+    destination: /etc/systemd/system/app.service
+  - source: /deployment/app.conf
+    destination: /etc/nginx/sites-available/app.conf
+
+hooks:
+  ApplicationStop:
+    - location: deployment/application_stop.sh
+      timeout: 60
+  AfterInstall:
+    - location: deployment/after_install.sh
+      timeout: 600
+  ApplicationStart:
+    - location: deployment/application_start.sh
+      timeout: 60

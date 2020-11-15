@@ -1,3 +1,6 @@
+from secrets import SecretConfig
+
+
 class BaseConfig:
     APP_NAME = 'TODO App'
     SERVER_NAME = 'todoapp.local:5000'
@@ -34,5 +37,5 @@ class TestConfig(BaseConfig):
     }
 
 
-class ProductionConfig(BaseConfig):
-    pass
+class ProductionConfig(SecretConfig, BaseConfig):
+    SERVER_NAME = 'tododemo.houstonfortney.com'
