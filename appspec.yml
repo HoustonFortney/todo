@@ -11,9 +11,9 @@ files:
     destination: /etc/nginx/sites-available/app.conf
 
 hooks:
-  ApplicationStop:
-    - location: deployment/application_stop.sh
-      timeout: 60
+#  ApplicationStop:
+#    - location: deployment/application_stop.sh
+#      timeout: 60
   AfterInstall:
     - location: deployment/after_install.sh
       timeout: 600
