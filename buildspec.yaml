@@ -28,19 +28,19 @@ phases:
 #      - 'cucumber/target/cucumber-tests.xml'
 #    discard-paths: yes
 #    file-format: CUCUMBERJSON # default is JUNITXML
-#artifacts:
-#  files:
-#    - target/messageUtil-1.0.jar
-#  discard-paths: yes
-#  secondary-artifacts:
-#    artifact1:
-#      files:
-#        - target/artifact-1.0.jar
-#      discard-paths: yes
-#    artifact2:
-#      files:
-#        - target/artifact-2.0.jar
-#      discard-paths: yes
+artifacts:
+  files:
+    - target/messageUtil-1.0.jar
+  discard-paths: yes
+  secondary-artifacts:
+    artifact1:
+      files:
+        - target/artifact-1.0.jar
+      discard-paths: yes
+    artifact2:
+      files:
+        - target/artifact-2.0.jar
+      discard-paths: yes
 #cache:
 #  paths:
 #    - '/root/.m2/**/*'
