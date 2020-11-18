@@ -3,7 +3,6 @@ from secrets import SecretConfig
 
 class BaseConfig:
     APP_NAME = 'TODO App'
-    SERVER_NAME = 'todoapp.local:5000'
 
     RESTX_MASK_SWAGGER = False
 
@@ -11,6 +10,8 @@ class BaseConfig:
 class DebugConfig(BaseConfig):
     DEBUG = True
     SECRET_KEY = 'dev_key_not_the_real_key'
+
+    SERVER_NAME = 'todoapp.local:5000'
 
     MONGODB_SETTINGS = {
         'host': 'mongodb://localhost:27017/todoapp?ssl=false'

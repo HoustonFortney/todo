@@ -18,7 +18,7 @@ Then you can run the debug setup:
   - Start the file watcher
   - Start the development server
 - The site will be accessible at <http://todoapp.local:5000/>
-- API doc and test (swagger) at <http://todoapp.local:5000/api/v1/>
+  - API doc (swagger) at <http://todoapp.local:5000/api/v1/>
 
 Tech stack
 ---
@@ -30,7 +30,7 @@ Architecture
 
 TODO
 
-Workflow
+Workflows
 ---
 
 TODO
