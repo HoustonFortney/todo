@@ -1,5 +1,7 @@
 from datetime import datetime
+
 from flask import abort
+from flask_login import current_user
 from flask_restx import Namespace, Resource, fields
 
 from ..models import Task
@@ -26,7 +28,7 @@ task_args_parser.add_argument('after', help='ID of another task. If supplied, th
 class TaskList(Resource):
     @api.marshal_with(task_model)
     def get(self):
-        return list(Task.objects.order_by('-priority').all())
+        return list(Task.objects(user=current_user.id).order_by('-priority').all())
 
     @api.expect(task_model, task_args_parser)
     @api.marshal_with(task_model, code=201)
@@ -36,11 +38,12 @@ class TaskList(Resource):
 
         task_fields = api.payload if api.payload is not None else {}
         task = Task(**task_fields)
+        task.user = current_user.id
         task.created = datetime.now()
         task.complete = False
 
         if after_task_id is not None and after_task_id:
-            after_task = Task.objects(id=after_task_id).first()
+            after_task = Task.objects(user=current_user.id, id=after_task_id).first()
             if after_task is None:
                 abort(400, f'After task with id {after_task_id} not found.')
         else:
@@ -57,11 +60,11 @@ class TaskList(Resource):
 class TaskResource(Resource):
     @api.marshal_with(task_model)
     def get(self, id):
-        return Task.objects(id=id).first_or_404()
+        return Task.objects(user=current_user.id, id=id).first_or_404()
 
     @api.response(204, 'deleted')
     def delete(self, id):
-        Task.objects(id=id).first_or_404().delete()
+        Task.objects(user=current_user.id, id=id).first_or_404().delete()
 
         return '', 204
 
@@ -71,7 +74,7 @@ class TaskResource(Resource):
         args = task_args_parser.parse_args()
         after_task_id = args['after']
 
-        task = Task.objects(id=id).first_or_404()
+        task = Task.objects(user=current_user.id, id=id).first_or_404()
         previous_complete = task.complete
 
         if api.payload:
@@ -88,7 +91,7 @@ class TaskResource(Resource):
         # Update priority only if after_task was supplied
         if after_task_id is not None:
             if after_task_id:
-                after_task = Task.objects(id=after_task_id).first()
+                after_task = Task.objects(user=current_user.id, id=after_task_id).first()
                 if after_task is None:
                     abort(400, f'After task with id {after_task_id} not found.')
             else:
@@ -110,7 +113,7 @@ def insert_after(this_task, after_task):
     increment = 1000
 
     if after_task is None:
-        highest_priority_task = Task.objects().order_by('-priority').limit(1).first()
+        highest_priority_task = Task.objects(user=current_user.id).order_by('-priority').limit(1).first()
         if highest_priority_task is None:
             # This is the first task
             this_task_priority = initial
@@ -119,7 +122,7 @@ def insert_after(this_task, after_task):
             this_task_priority = int(highest_priority_task.priority) + increment
     else:
         this_task_priority = int(after_task.priority)
-        higher_priority_tasks = Task.objects(priority__gte=after_task.priority).order_by('priority')
+        higher_priority_tasks = Task.objects(user=current_user.id, priority__gte=after_task.priority).order_by('priority')
 
         # Increase the priority of all tasks which are higher priority than this task to make room
         new_priority = this_task_priority

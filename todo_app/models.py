@@ -1,9 +1,14 @@
 import mongoengine as me
 
-from todo_app import db
+from .db import db
+
+
+class User(db.Document):
+    username = me.StringField()
 
 
 class Task(db.Document):
+    user = me.ReferenceField(User, required=True)
     name = me.StringField(required=True)
     complete = me.BooleanField(required=True)
     completed = me.DateTimeField()
