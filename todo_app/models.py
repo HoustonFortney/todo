@@ -5,6 +5,7 @@ from .db import db
 
 class User(db.Document):
     username = me.StringField()
+    addr = me.StringField()
 
 
 class Task(db.Document):
