@@ -1,19 +1,20 @@
 from flask import Flask
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_mongoengine import MongoEngine
+
 from config import DebugConfig
-
-
-debug_toolbar = DebugToolbarExtension()
-db = MongoEngine()
+from .db import db
+from .demo_login_system import demo_login_manager
 
 
 def create_app(config_object=DebugConfig):
     app = Flask(__name__)
     app.config.from_object(config_object)
 
+    debug_toolbar = DebugToolbarExtension()
     debug_toolbar.init_app(app)
+
     db.init_app(app)
+    demo_login_manager.init_app(app)
 
     with app.app_context():
         from .home import home

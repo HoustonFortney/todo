@@ -33,6 +33,8 @@ class DebugConfig(BaseConfig):
 class TestConfig(BaseConfig):
     TESTING = True
 
+    SECRET_KEY = 'test_key_not_the_real_key'
+
     MONGODB_SETTINGS = {
         'host': 'mongomock://localhost'
     }
