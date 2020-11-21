@@ -35,11 +35,15 @@ class DebugConfig(BaseConfig):
 class TestConfig(BaseConfig):
     TESTING = True
 
+    STATIC_PATH = '/static'
+
     SECRET_KEY = 'test_key_not_the_real_key'
 
     MONGODB_SETTINGS = {
         'host': 'mongomock://localhost'
     }
+
+    TEST_SERVER_PORT = 8943
 
 
 class ProductionConfig(SecretConfig, BaseConfig):

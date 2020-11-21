@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from freezegun import freeze_time
 
-from api_tests.utils import TestBase
+from api_tests.base import TestBase
 from todo_app.models import Task, User
 
 time_format = '%Y-%m-%dT%H:%M:%S'
