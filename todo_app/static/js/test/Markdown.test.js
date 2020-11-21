@@ -1,4 +1,4 @@
-import {renderSanitizedMarkdown} from "./Markdown.jsx";
+import {renderSanitizedMarkdown} from "../components/Markdown.jsx";
 
 it("renders paragraphs", () => {
   expect(renderSanitizedMarkdown("asdf\n\nqwerty")).toBe("<p>asdf</p>\n<p>qwerty</p>");

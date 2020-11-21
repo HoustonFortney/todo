@@ -6,7 +6,7 @@
     "start": "npm run watch",
     "watch": "webpack --watch --mode development",
     "build": "webpack --mode production",
-    "test": "jest ./todo_app/static/js"
+    "test": "jest ./todo_app/static/js/test"
   },
   "repository": {
     "type": "git",
