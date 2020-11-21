@@ -17,10 +17,11 @@ def check_backend_requirementes():
         pkg_resources.require(str(requirement))
 
     print('Checking local DNS...')
-    try:
-        socket.gethostbyname('todoapp.local')
-    except socket.gaierror:
-        raise Exception('Add todoapp.local to your hosts file.')
+    for test_name in ['todoapp.local', 'static.todoapp.local']:
+        try:
+            socket.gethostbyname(test_name)
+        except socket.gaierror:
+            raise Exception('Add {} to your hosts file.'.format(test_name))
 
     print('Checking connection to local database...')
     client = pymongo.MongoClient(host=['mongodb://localhost:27017/?ssl=false&serverSelectionTimeoutMS=1000'])
