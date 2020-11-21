@@ -1,11 +1,11 @@
 import os
-import pymongo
 import shutil
 import socket
 import subprocess
 from pathlib import Path
 
 import pkg_resources
+import pymongo
 
 
 def check_backend_requirementes():
@@ -29,6 +29,10 @@ def check_backend_requirementes():
         client.server_info()
     except pymongo.errors.ServerSelectionTimeoutError:
         raise Exception('Make sure mongodb is installed and running on localhost:27017.')
+
+    print('Checking that ChromeDriver is installed...')
+    if shutil.which('chromedriver') is None:
+        raise Exception('Make sure ChromeDriver is installed and in the PATH.')
 
 
 def run_backend():

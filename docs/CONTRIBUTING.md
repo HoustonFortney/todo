@@ -11,6 +11,7 @@ Get your machine setup:
 - Add the following to your machine's hosts file:
   - `127.0.0.1 todoapp.local`
   - `127.0.0.1 static.todoapp.local`
+- For end to end tests, install [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)
 - For better debugging, install the [React Developer Tools](https://reactjs.org/blog/2015/09/02/new-react-developer-tools.html) chrome extension
 
 Then you can run the debug setup:

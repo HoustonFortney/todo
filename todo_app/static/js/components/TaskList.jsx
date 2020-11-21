@@ -231,12 +231,12 @@ class TaskListItem extends React.Component {
         const task = this.props.task;
         const buttonClass = (task.complete ? "task-name-complete" : "task-name") + (this.state.doAnimation ? " animate" : "");
         return (
-            <ListGroup.Item>
+            <ListGroup.Item className="task-list-item">
                 <div className="task-header">
                     <span className="btn" onClick={this.toggleComplete}>
                         {task.complete ? <i className="far fa-check-square"/> : <i className="far fa-square"/>}
                     </span>
-                    <Button variant="link" className={buttonClass}
+                    <Button variant="link" className={buttonClass} id="task-name"
                             onClick={this.toggleExpanded}>{this.state.editTask.name}</Button>
                     {this.state.expanded && (this.state.editing ?
                         <CancelSaveButtons onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits}/> :
@@ -366,9 +366,10 @@ class AddTask extends React.Component {
     render() {
         return (
             <ListGroup.Item>
-                <Form inline onSubmit={(event) => event.preventDefault()}>
+                <Form id="task-adder" inline onSubmit={(event) => event.preventDefault()}>
                     <span className="btn"><i className="fas fa-plus"/></span>
                     <Form.Control
+                        id="task-name"
                         className="w-75"
                         placeholder="New task"
                         name="name"
@@ -377,7 +378,7 @@ class AddTask extends React.Component {
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleInputChange}
                     />&nbsp;
-                    <Button type="submit" onClick={this.onCreate}>
+                    <Button id="create-task-button" type="submit" onClick={this.onCreate}>
                         Create
                     </Button>
                 </Form>
