@@ -12,3 +12,7 @@ __pycache__
 
 # Installed node packages
 node_modules/
+
+# Test framework files
+.tox/
+*_test_results.xml

@@ -2,45 +2,28 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      python: 3.7
     commands:
-      - echo Entered the install phase...
-      - apt update -y
-  pre_build:
-    commands:
-      - echo Entered the pre_build phase...
+      - pip install tox
+      - npm install
   build:
     commands:
-      - echo Entered the build phase...
-      - echo Build started on `date`
+      - npm run build
   post_build:
     commands:
-      - echo Entered the post_build phase...
-      - echo Build completed on `date`
+      - tox -c api_tests/tox.ini
+      - npm test
 
-#reports:
-#  arn:aws:codebuild:your-region:your-aws-account-id:report-group/report-group-name-1:
-#    files:
-#      - "**/*"
-#    base-directory: 'target/tests/reports'
-#    discard-paths: no
-#  reportGroupCucumberJson:
-#    files:
-#      - 'cucumber/target/cucumber-tests.xml'
-#    discard-paths: yes
-#    file-format: CUCUMBERJSON # default is JUNITXML
+reports:
+  reportGroupApiTests:
+    files:
+      - 'api_test_results.xml'
+  reportGroupJSTests:
+    files:
+      - 'js_test_results.xml'
+
 artifacts:
   files:
-    - target/messageUtil-1.0.jar
+    - todo_app/static/dist/**
   discard-paths: yes
-  secondary-artifacts:
-    artifact1:
-      files:
-        - target/artifact-1.0.jar
-      discard-paths: yes
-    artifact2:
-      files:
-        - target/artifact-2.0.jar
-      discard-paths: yes
-#cache:
-#  paths:
-#    - '/root/.m2/**/*'
