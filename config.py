@@ -3,6 +3,7 @@ from secrets import SecretConfig
 
 class BaseConfig:
     APP_NAME = 'TODO App'
+    VERSION_STRING = '1.0.0'
 
     RESTX_MASK_SWAGGER = False
 
@@ -12,6 +13,7 @@ class DebugConfig(BaseConfig):
     SECRET_KEY = 'dev_key_not_the_real_key'
 
     SERVER_NAME = 'todoapp.local:5000'
+    STATIC_PATH = '//static.' + SERVER_NAME
 
     MONGODB_SETTINGS = {
         'host': 'mongodb://localhost:27017/todoapp?ssl=false'
@@ -42,3 +44,4 @@ class TestConfig(BaseConfig):
 
 class ProductionConfig(SecretConfig, BaseConfig):
     SERVER_NAME = 'tododemo.houstonfortney.com'
+    STATIC_PATH = '//static.' + SERVER_NAME + '/' + BaseConfig.VERSION_STRING

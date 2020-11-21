@@ -8,7 +8,9 @@ Get your machine setup:
 - Install [python](https://www.python.org/downloads/)
   - Setup a python [virtualenv](https://docs.python.org/3/tutorial/venv.html) (optional)
   - Run `pip install -r requirements.txt`
-- Add `127.0.0.1 todoapp.local` to your machine's hosts file
+- Add the following to your machine's hosts file:
+  - `127.0.0.1 todoapp.local`
+  - `127.0.0.1 static.todoapp.local`
 - For better debugging, install the [React Developer Tools](https://reactjs.org/blog/2015/09/02/new-react-developer-tools.html) chrome extension
 
 Then you can run the debug setup:
