@@ -55,26 +55,26 @@ class TaskList(Resource):
         return task, 201
 
 
-@api.route('/<id>')
-@api.doc(params={'id': 'ID of task'})
+@api.route('/<id_>')
+@api.doc(params={'id_': 'ID of task'})
 class TaskResource(Resource):
     @api.marshal_with(task_model)
-    def get(self, id):
-        return Task.objects(user=current_user.id, id=id).first_or_404()
+    def get(self, id_):
+        return Task.objects(user=current_user.id, id=id_).first_or_404()
 
     @api.response(204, 'deleted')
-    def delete(self, id):
-        Task.objects(user=current_user.id, id=id).first_or_404().delete()
+    def delete(self, id_):
+        Task.objects(user=current_user.id, id=id_).first_or_404().delete()
 
         return '', 204
 
     @api.expect(task_model, task_args_parser)
     @api.marshal_with(task_model)
-    def put(self, id):
+    def put(self, id_):
         args = task_args_parser.parse_args()
         after_task_id = args['after']
 
-        task = Task.objects(user=current_user.id, id=id).first_or_404()
+        task = Task.objects(user=current_user.id, id=id_).first_or_404()
         previous_complete = task.complete
 
         if api.payload:
@@ -122,11 +122,11 @@ def insert_after(this_task, after_task):
             this_task_priority = int(highest_priority_task.priority) + increment
     else:
         this_task_priority = int(after_task.priority)
-        higher_priority_tasks = Task.objects(user=current_user.id, priority__gte=after_task.priority).order_by('priority')
+        higher_priority_tasks = Task.objects(user=current_user.id, priority__gte=after_task.priority)
 
         # Increase the priority of all tasks which are higher priority than this task to make room
         new_priority = this_task_priority
-        for task in higher_priority_tasks:
+        for task in higher_priority_tasks.order_by('priority'):
             if task.id != this_task.id:
                 new_priority += increment
                 task.update(priority=str(new_priority))

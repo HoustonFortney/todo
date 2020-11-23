@@ -24,11 +24,17 @@
 
 ##### Run the tests
 
-API tests: `cd api_tests && tox`
+API tests: `tox`
 
 JS tests: `npm test`
 
-End to end tests: `cd end_to_end_tests && tox`
+End to end tests: `tox -e end_to_end`
+
+##### Run the linters
+
+Back end: `tox -e pylint`
+
+Front end: `npm run lint`
 
 Tech stack
 ---
