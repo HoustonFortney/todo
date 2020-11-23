@@ -1,5 +1,6 @@
-from api_tests.base import TestBase
 from flask_login import current_user
+
+from api_tests.base import TestBase
 
 
 class TestDemoLoginSystem(TestBase):

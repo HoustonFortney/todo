@@ -22,12 +22,14 @@ def create_app(config_object=DebugConfig):
                                     static_url_path='',
                                     url_prefix='/')
 
+    # pylint: disable=unused-variable
     @app.context_processor
     def add_static_url_for():
         static_url_for = lambda p: app.config['STATIC_PATH'] + '/' + p
         return dict(static_url_for=static_url_for)
 
     with app.app_context():
+        # pylint: disable=import-outside-toplevel
         from .home import home
         from .api import api_blueprint
 
