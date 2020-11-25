@@ -1,7 +1,9 @@
-import {Button, Card, Col, Collapse, Form, ListGroup, Row} from "react-bootstrap";
-import React from "react";
-import TextWithInfo from "./TextWithInfo";
-import {renderSanitizedMarkdown} from "./Markdown";
+import {
+  Button, Card, Collapse, Col, Form, ListGroup, Row,
+} from 'react-bootstrap';
+import React from 'react';
+import TextWithInfo from './TextWithInfo';
+import { renderSanitizedMarkdown } from './Markdown';
 
 class TaskListItem extends React.Component {
   constructor(props) {
@@ -23,17 +25,17 @@ class TaskListItem extends React.Component {
         id: this.props.task.id,
         name: this.props.task.name,
         location: this.props.task.location,
-        notes: this.props.task.notes
-      }
+        notes: this.props.task.notes,
+      },
     };
   }
 
   toggleExpanded() {
-    this.setState({expanded: !this.state.expanded});
+    this.setState({ expanded: !this.state.expanded });
   }
 
   startEditing() {
-    this.setState({editing: true});
+    this.setState({ editing: true });
   }
 
   cancelEditing() {
@@ -43,14 +45,14 @@ class TaskListItem extends React.Component {
         id: this.props.task.id,
         name: this.props.task.name,
         location: this.props.task.location,
-        notes: this.props.task.notes
-      }
+        notes: this.props.task.notes,
+      },
     });
   }
 
   saveEdits() {
     this.props.onUpdate(this.state.editTask);
-    this.setState({editing: false});
+    this.setState({ editing: false });
   }
 
   deleteTask() {
@@ -58,68 +60,80 @@ class TaskListItem extends React.Component {
   }
 
   toggleComplete() {
-    const task = this.props.task;
-    this.props.onUpdate({id: task.id, complete: !task.complete});
-    this.setState({doAnimation: true});
+    const { task } = this.props;
+    this.props.onUpdate({ id: task.id, complete: !task.complete });
+    this.setState({ doAnimation: true });
   }
 
   handleInputChange(event) {
-    let editTask = this.state.editTask;
-    const target = event.target;
+    const { editTask } = this.state;
+    const { target } = event;
     editTask[target.name] = target.value;
-    this.setState({editTask: editTask});
+    this.setState({ editTask });
   }
 
   render() {
-    const task = this.props.task;
-    const buttonClass = (task.complete ? "task-name-complete" : "task-name") + (this.state.doAnimation ? " animate" : "");
+    const { task } = this.props;
+    const buttonClass = (task.complete ? 'task-name-complete' : 'task-name') + (this.state.doAnimation ? ' animate' : '');
     return (
       <ListGroup.Item className="task-list-item">
         <div className="task-header">
-                    <span className="btn" onClick={this.toggleComplete}>
-                        {task.complete ? <i className="far fa-check-square"/> : <i className="far fa-square"/>}
-                    </span>
-          <Button variant="link" className={buttonClass} id="task-name"
-                  onClick={this.toggleExpanded}>{this.state.editTask.name}</Button>
-          {this.state.expanded && (this.state.editing ?
-            <CancelSaveButtons onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits}/> :
-            <EditDeleteButtons onEdit={this.startEditing} onDelete={this.deleteTask}/>)}
+          <span className="btn" onClick={this.toggleComplete}>
+            {task.complete ? <i className="far fa-check-square" /> : <i className="far fa-square" />}
+          </span>
+          <Button
+            variant="link"
+            className={buttonClass}
+            id="task-name"
+            onClick={this.toggleExpanded}
+          >
+            {this.state.editTask.name}
+          </Button>
+          {this.state.expanded && (this.state.editing
+            ? <CancelSaveButtons onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits} />
+            : <EditDeleteButtons onEdit={this.startEditing} onDelete={this.deleteTask} />)}
         </div>
         <Collapse in={this.state.expanded}>
           <div>
             <Card.Body>
-              {this.state.editing ?
-                <EditTask task={this.state.editTask} handleInputChange={this.handleInputChange}/> :
-                <TaskDetails task={task}/>}
+              {this.state.editing
+                ? <EditTask task={this.state.editTask} handleInputChange={this.handleInputChange} />
+                : <TaskDetails task={task} />}
             </Card.Body>
           </div>
         </Collapse>
       </ListGroup.Item>
-    )
+    );
   }
 }
 
-const EditDeleteButtons = (props) =>
+const EditDeleteButtons = (props) => (
   <span className="float-right">
-        <Button onClick={props.onEdit}>
-            <i className="far fa-edit"/><span className="d-none d-md-inline-block">&nbsp;Edit</span>
-        </Button>&nbsp;
+    <Button onClick={props.onEdit}>
+      <i className="far fa-edit" />
+      <span className="d-none d-md-inline-block">&nbsp;Edit</span>
+    </Button>
     <Button variant="danger" onClick={props.onDelete}>
-            <i className="far fa-trash-alt"/><span className="d-none d-md-inline-block">&nbsp;Delete</span>
-        </Button>
-    </span>
+      <i className="far fa-trash-alt" />
+      <span className="d-none d-md-inline-block">&nbsp;Delete</span>
+    </Button>
+  </span>
+);
 
-const CancelSaveButtons = (props) =>
+const CancelSaveButtons = (props) => (
   <span className="float-right">
-        <Button variant="outline-secondary" onClick={props.onCancelEdit}>
-            <i className="fas fa-undo"></i><span className="d-none d-md-inline-block">&nbsp;Cancel</span>
-        </Button>&nbsp;
+    <Button variant="outline-secondary" onClick={props.onCancelEdit}>
+      <i className="fas fa-undo" />
+      <span className="d-none d-md-inline-block">&nbsp;Cancel</span>
+    </Button>
     <Button onClick={props.onSaveEdit}>
-            <i className="far fa-save"/><span className="d-none d-md-inline-block">&nbsp;Save</span>
-        </Button>
-    </span>
+      <i className="far fa-save" />
+      <span className="d-none d-md-inline-block">&nbsp;Save</span>
+    </Button>
+  </span>
+);
 
-const TaskDetails = (props) =>
+const TaskDetails = (props) => (
   <div>
     {props.task.location && <p><strong>Location</strong>&nbsp;{props.task.location}</p>}
     <div dangerouslySetInnerHTML={{__html: renderSanitizedMarkdown(props.task.notes)}}/>
@@ -127,8 +141,9 @@ const TaskDetails = (props) =>
       <span className="text-muted">Completed {new Date(props.task.completed).toLocaleDateString()}</span> :
       <span className="text-muted">Created {new Date(props.task.created).toLocaleDateString()}</span>}
   </div>
+);
 
-const EditTask = (props) =>
+const EditTask = (props) => (
   <div>
     <Form onSubmit={(event) => event.preventDefault()}>
       <Form.Group as={Row}>
@@ -155,7 +170,10 @@ const EditTask = (props) =>
       <Form.Group as={Row}>
         <Form.Label column sm={2}>
           <TextWithInfo text="Notes" title="Task notes">
-            Supports <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">markdown</a>.
+            Supports
+            {' '}
+            <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">markdown</a>
+            .
           </TextWithInfo>
         </Form.Label>
         <Col sm={10}>
@@ -166,10 +184,11 @@ const EditTask = (props) =>
             value={props.task.notes}
             onChange={props.handleInputChange}
           />
-          <div className="p-3" dangerouslySetInnerHTML={{__html: renderSanitizedMarkdown(props.task.notes)}}/>
+          <div className="p-3" dangerouslySetInnerHTML={{ __html: renderSanitizedMarkdown(props.task.notes) }} />
         </Col>
       </Form.Group>
     </Form>
   </div>
+);
 
 export default TaskListItem;
