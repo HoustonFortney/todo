@@ -4,11 +4,13 @@ import Button from 'react-bootstrap/Button';
 import React from 'react';
 
 const TextWithInfo = (props) => {
+  const { title, text, children } = props;
+
   const InfoTooltip = (innerProps) => (
     <Popover id="info-tooltip" {...innerProps}>
-      <Popover.Title>{props.title}</Popover.Title>
+      <Popover.Title>{title}</Popover.Title>
       <Popover.Content>
-        {props.children}
+        {children}
       </Popover.Content>
     </Popover>
   );
@@ -23,7 +25,7 @@ const TextWithInfo = (props) => {
   return (
     <OverlayTrigger trigger="focus" placement="right" overlay={InfoTooltip}>
       <span>
-        {props.text}
+        {text}
         <>&nbsp;</>
         <Button style={infoButtonStyle} variant="link">
           <i className="fas fa-info-circle" />

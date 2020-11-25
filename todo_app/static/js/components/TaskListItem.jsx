@@ -3,7 +3,10 @@ import {
 } from 'react-bootstrap';
 import React from 'react';
 import TextWithInfo from './TextWithInfo';
-import { renderSanitizedMarkdown } from './Markdown';
+import renderSanitizedMarkdown from './Markdown';
+
+/* dangerouslySetInnerHTML is only used with sanitization */
+/* eslint-disable react/no-danger */
 
 class TaskListItem extends React.Component {
   constructor(props) {
@@ -17,21 +20,25 @@ class TaskListItem extends React.Component {
     this.toggleComplete = this.toggleComplete.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
 
+    const { task } = this.props;
+
     this.state = {
       expanded: false,
       editing: false,
       doAnimation: false,
-      editTask: {
-        id: this.props.task.id,
-        name: this.props.task.name,
-        location: this.props.task.location,
-        notes: this.props.task.notes,
-      },
+      editTask: { ...task },
     };
   }
 
+  handleInputChange(event) {
+    const { editTask } = this.state;
+    editTask[event.target.name] = event.target.value;
+    this.setState({ editTask });
+  }
+
   toggleExpanded() {
-    this.setState({ expanded: !this.state.expanded });
+    const { expanded } = this.state;
+    this.setState({ expanded: !expanded });
   }
 
   startEditing() {
@@ -39,65 +46,63 @@ class TaskListItem extends React.Component {
   }
 
   cancelEditing() {
+    const { task } = this.props;
     this.setState({
       editing: false,
-      editTask: {
-        id: this.props.task.id,
-        name: this.props.task.name,
-        location: this.props.task.location,
-        notes: this.props.task.notes,
-      },
+      editTask: { ...task },
     });
   }
 
   saveEdits() {
-    this.props.onUpdate(this.state.editTask);
+    const { onUpdate } = this.props;
+    const { editTask } = this.state;
+    onUpdate(editTask);
     this.setState({ editing: false });
   }
 
   deleteTask() {
-    this.props.onDelete(this.props.task);
+    const { onDelete } = this.props;
+    const { editTask } = this.state;
+    onDelete(editTask);
   }
 
   toggleComplete() {
-    const { task } = this.props;
-    this.props.onUpdate({ id: task.id, complete: !task.complete });
+    const { task, onUpdate } = this.props;
+    onUpdate({ id: task.id, complete: !task.complete });
     this.setState({ doAnimation: true });
-  }
-
-  handleInputChange(event) {
-    const { editTask } = this.state;
-    const { target } = event;
-    editTask[target.name] = target.value;
-    this.setState({ editTask });
   }
 
   render() {
     const { task } = this.props;
-    const buttonClass = (task.complete ? 'task-name-complete' : 'task-name') + (this.state.doAnimation ? ' animate' : '');
+    const {
+      doAnimation, editTask, expanded, editing,
+    } = this.state;
+
+    const buttonClass = (task.complete ? 'task-name-complete' : 'task-name') + (doAnimation ? ' animate' : '');
+
     return (
       <ListGroup.Item className="task-list-item">
         <div className="task-header">
-          <span className="btn" onClick={this.toggleComplete}>
+          <Button variant="link" className="toggle-complete" onClick={this.toggleComplete}>
             {task.complete ? <i className="far fa-check-square" /> : <i className="far fa-square" />}
-          </span>
+          </Button>
           <Button
             variant="link"
             className={buttonClass}
             id="task-name"
             onClick={this.toggleExpanded}
           >
-            {this.state.editTask.name}
+            {editTask.name}
           </Button>
-          {this.state.expanded && (this.state.editing
+          {expanded && (editing
             ? <CancelSaveButtons onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits} />
             : <EditDeleteButtons onEdit={this.startEditing} onDelete={this.deleteTask} />)}
         </div>
-        <Collapse in={this.state.expanded}>
+        <Collapse in={expanded}>
           <div>
             <Card.Body>
-              {this.state.editing
-                ? <EditTask task={this.state.editTask} handleInputChange={this.handleInputChange} />
+              {editing
+                ? <EditTask task={editTask} handleInputChange={this.handleInputChange} />
                 : <TaskDetails task={task} />}
             </Card.Body>
           </div>
@@ -107,88 +112,110 @@ class TaskListItem extends React.Component {
   }
 }
 
-const EditDeleteButtons = (props) => (
-  <span className="float-right">
-    <Button onClick={props.onEdit}>
-      <i className="far fa-edit" />
-      <span className="d-none d-md-inline-block">&nbsp;Edit</span>
-    </Button>
-    <Button variant="danger" onClick={props.onDelete}>
-      <i className="far fa-trash-alt" />
-      <span className="d-none d-md-inline-block">&nbsp;Delete</span>
-    </Button>
-  </span>
-);
+const EditDeleteButtons = (props) => {
+  const { onEdit, onDelete } = props;
 
-const CancelSaveButtons = (props) => (
-  <span className="float-right">
-    <Button variant="outline-secondary" onClick={props.onCancelEdit}>
-      <i className="fas fa-undo" />
-      <span className="d-none d-md-inline-block">&nbsp;Cancel</span>
-    </Button>
-    <Button onClick={props.onSaveEdit}>
-      <i className="far fa-save" />
-      <span className="d-none d-md-inline-block">&nbsp;Save</span>
-    </Button>
-  </span>
-);
+  return (
+    <span className="float-right">
+      <Button onClick={onEdit}>
+        <i className="far fa-edit" />
+        <span className="d-none d-md-inline-block">&nbsp;Edit</span>
+      </Button>
+      <Button variant="danger" onClick={onDelete}>
+        <i className="far fa-trash-alt" />
+        <span className="d-none d-md-inline-block">&nbsp;Delete</span>
+      </Button>
+    </span>
+  );
+};
 
-const TaskDetails = (props) => (
-  <div>
-    {props.task.location && <p><strong>Location</strong>&nbsp;{props.task.location}</p>}
-    <div dangerouslySetInnerHTML={{__html: renderSanitizedMarkdown(props.task.notes)}}/>
-    {props.task.complete ?
-      <span className="text-muted">Completed {new Date(props.task.completed).toLocaleDateString()}</span> :
-      <span className="text-muted">Created {new Date(props.task.created).toLocaleDateString()}</span>}
-  </div>
-);
+const CancelSaveButtons = (props) => {
+  const { onCancelEdit, onSaveEdit } = props;
 
-const EditTask = (props) => (
-  <div>
-    <Form onSubmit={(event) => event.preventDefault()}>
-      <Form.Group as={Row}>
-        <Form.Label column sm={2}>Name</Form.Label>
-        <Col sm={10}>
-          <Form.Control
-            placeholder="New task"
-            name="name"
-            value={props.task.name}
-            onChange={props.handleInputChange}
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row}>
-        <Form.Label column sm={2}>Location</Form.Label>
-        <Col sm={10}>
-          <Form.Control
-            name="location"
-            value={props.task.location}
-            onChange={props.handleInputChange}
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row}>
-        <Form.Label column sm={2}>
-          <TextWithInfo text="Notes" title="Task notes">
-            Supports
-            {' '}
-            <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">markdown</a>
-            .
-          </TextWithInfo>
-        </Form.Label>
-        <Col sm={10}>
-          <Form.Control
-            as="textarea"
-            rows={8}
-            name="notes"
-            value={props.task.notes}
-            onChange={props.handleInputChange}
-          />
-          <div className="p-3" dangerouslySetInnerHTML={{ __html: renderSanitizedMarkdown(props.task.notes) }} />
-        </Col>
-      </Form.Group>
-    </Form>
-  </div>
-);
+  return (
+    <span className="float-right">
+      <Button variant="outline-secondary" onClick={onCancelEdit}>
+        <i className="fas fa-undo" />
+        <span className="d-none d-md-inline-block">&nbsp;Cancel</span>
+      </Button>
+      <Button onClick={onSaveEdit}>
+        <i className="far fa-save" />
+        <span className="d-none d-md-inline-block">&nbsp;Save</span>
+      </Button>
+    </span>
+  );
+};
+
+const TaskDetails = (props) => {
+  const { task } = props;
+  return (
+    <div>
+      {task.location && (
+      <p>
+        <strong>Location</strong>
+        <>&nbsp;</>
+        {task.location}
+      </p>
+      )}
+      <div dangerouslySetInnerHTML={{ __html: renderSanitizedMarkdown(task.notes) }} />
+      <span className="text-muted">
+        {task.complete
+          ? `Completed ${new Date(task.completed).toLocaleDateString()}`
+          : `Created ${new Date(task.created).toLocaleDateString()}`}
+      </span>
+    </div>
+  );
+};
+
+const EditTask = (props) => {
+  const { task, handleInputChange } = props;
+  return (
+    <div>
+      <Form onSubmit={(event) => event.preventDefault()}>
+        <Form.Group as={Row}>
+          <Form.Label column sm={2}>Name</Form.Label>
+          <Col sm={10}>
+            <Form.Control
+              placeholder="New task"
+              name="name"
+              value={task.name}
+              onChange={handleInputChange}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row}>
+          <Form.Label column sm={2}>Location</Form.Label>
+          <Col sm={10}>
+            <Form.Control
+              name="location"
+              value={task.location}
+              onChange={handleInputChange}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row}>
+          <Form.Label column sm={2}>
+            <TextWithInfo text="Notes" title="Task notes">
+              Supports
+              {' '}
+              <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank" rel="noreferrer">markdown</a>
+              .
+            </TextWithInfo>
+          </Form.Label>
+          <Col sm={10}>
+            <Form.Control
+              as="textarea"
+              rows={8}
+              name="notes"
+              value={task.notes}
+              onChange={handleInputChange}
+            />
+            <div className="p-3" dangerouslySetInnerHTML={{ __html: renderSanitizedMarkdown(task.notes) }} />
+          </Col>
+        </Form.Group>
+      </Form>
+    </div>
+  );
+};
 
 export default TaskListItem;
