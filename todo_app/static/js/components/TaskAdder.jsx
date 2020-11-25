@@ -1,5 +1,5 @@
-import React from "react";
-import {Button, Form, ListGroup} from "react-bootstrap";
+import React from 'react';
+import { Button, Form, ListGroup } from 'react-bootstrap';
 
 class TaskAdder extends React.Component {
   constructor(props) {
@@ -10,16 +10,16 @@ class TaskAdder extends React.Component {
     this.onCreate = this.onCreate.bind(this);
 
     this.state = {
-      name: ""
+      name: '',
     };
   }
 
   handleInputChange(event) {
-    this.setState({name: event.target.value});
+    this.setState({ name: event.target.value });
   }
 
   handleKeyDown(event) {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       this.onCreate();
 
       // Clear native autocomplete
@@ -32,14 +32,14 @@ class TaskAdder extends React.Component {
     if (this.state.name) {
       this.props.onCreate(this.state);
     }
-    this.setState({name: ""})
+    this.setState({ name: '' });
   }
 
   render() {
     return (
       <ListGroup.Item>
         <Form id="task-adder" inline onSubmit={(event) => event.preventDefault()}>
-          <span className="btn"><i className="fas fa-plus"/></span>
+          <span className="btn"><i className="fas fa-plus" /></span>
           <Form.Control
             id="task-name"
             className="w-75"
@@ -49,7 +49,7 @@ class TaskAdder extends React.Component {
             value={this.state.name}
             onKeyDown={this.handleKeyDown}
             onChange={this.handleInputChange}
-          />&nbsp;
+          />
           <Button id="create-task-button" type="submit" onClick={this.onCreate}>
             Create
           </Button>
