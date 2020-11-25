@@ -2,7 +2,7 @@
 .idea
 
 # Python virtual environment
-/venv
+/venv/
 
 # Python cache files
 __pycache__
@@ -11,7 +11,7 @@ __pycache__
 /todo_app/static/dist/
 
 # Installed node packages
-node_modules/
+/node_modules/
 
 # Test framework files
 .tox/
