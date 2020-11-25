@@ -29,13 +29,17 @@ class TaskAdder extends React.Component {
   }
 
   onCreate() {
-    if (this.state.name) {
-      this.props.onCreate(this.state);
+    const { name } = this.state;
+    const { onCreate } = this.props;
+    if (name) {
+      onCreate(this.state);
     }
     this.setState({ name: '' });
   }
 
   render() {
+    const { name } = this.state;
+
     return (
       <ListGroup.Item>
         <Form id="task-adder" inline onSubmit={(event) => event.preventDefault()}>
@@ -46,7 +50,7 @@ class TaskAdder extends React.Component {
             placeholder="New task"
             name="name"
             autoComplete="off"
-            value={this.state.name}
+            value={name}
             onKeyDown={this.handleKeyDown}
             onChange={this.handleInputChange}
           />

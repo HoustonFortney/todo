@@ -39,21 +39,21 @@ class TaskList extends React.Component {
   }
 
   createTask(newTask) {
-    const { adderIndex } = this.state;
-    const afterId = (adderIndex > 0) ? this.state.tasks[adderIndex - 1].id : '';
-    this.itemService.createItem(newTask, { after: afterId }).then((item) => {
+    const { adderIndex, tasks } = this.state;
+    const afterId = (adderIndex > 0) ? tasks[adderIndex - 1].id : '';
+    this.itemService.createItem(newTask, { after: afterId }).then(() => {
       this.getTasks();
     });
   }
 
   updateTask(task) {
-    this.itemService.updateItem(task).then((item) => {
+    this.itemService.updateItem(task).then(() => {
       this.getTasks();
     });
   }
 
   deleteTask(task) {
-    this.itemService.deleteItem(task.id).then((res) => {
+    this.itemService.deleteItem(task.id).then(() => {
       this.getTasks();
       this.setState({ deletePending: false, deleteTask: null });
     });
@@ -79,8 +79,10 @@ class TaskList extends React.Component {
       return;
     }
 
+    const { adderIndex, tasks } = this.state;
+
     // See if adder needs to move
-    let newAdderIndex = this.state.adderIndex;
+    let newAdderIndex = adderIndex;
     if (toIndex <= newAdderIndex && fromIndex > newAdderIndex) {
       newAdderIndex++;
     } else if (toIndex >= newAdderIndex && fromIndex < newAdderIndex) {
@@ -88,11 +90,11 @@ class TaskList extends React.Component {
     }
 
     // Compute indexes if there were no adder
-    if (fromIndex > this.state.adderIndex) fromIndex--;
+    if (fromIndex > adderIndex) fromIndex--;
     if (toIndex > newAdderIndex) toIndex--;
 
     // Do local move
-    const taskList = [...this.state.tasks];
+    const taskList = [...tasks];
     taskList.splice(toIndex, 0, taskList.splice(fromIndex, 1)[0]);
     this.setState({ tasks: taskList, adderIndex: newAdderIndex });
 
@@ -100,24 +102,28 @@ class TaskList extends React.Component {
     let afterId = '';
     if (toIndex > 0) {
       if (toIndex < fromIndex) toIndex--;
-      afterId = this.state.tasks[toIndex].id;
+      afterId = tasks[toIndex].id;
     }
-    this.itemService.updateItem({ id: result.draggableId }, { after: afterId }).then((item) => {
+    this.itemService.updateItem({ id: result.draggableId }, { after: afterId }).then(() => {
       this.getTasks();
     });
   }
 
   render() {
-    if (!this.state.tasks) return null;
-    const tasks = [...this.state.tasks];
+    const {
+      tasks, adderIndex, deleteTask, deletePending,
+    } = this.state;
 
-    tasks.splice(this.state.adderIndex, 0, { id: 'taskadder' });
+    if (!tasks) return null;
+    const displayTasks = [...tasks];
+
+    displayTasks.splice(adderIndex, 0, { id: 'taskadder' });
 
     const taskList = (
       <ListGroup>
-        {tasks.map((task, index) => (
+        {displayTasks.map((task, index) => (
           <Draggable key={task.id} draggableId={task.id} index={index}>
-            {(provided, snapshot) => (
+            {(provided) => (
               <div
                 ref={provided.innerRef}
                 {...provided.draggableProps}
@@ -143,7 +149,7 @@ class TaskList extends React.Component {
       <div>
         <DragDropContext onDragEnd={this.updateTaskOrder}>
           <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
+            {(provided) => (
               <Card {...provided.droppableProps} ref={provided.innerRef}>
                 {taskList}
                 {provided.placeholder}
@@ -151,14 +157,14 @@ class TaskList extends React.Component {
             )}
           </Droppable>
         </DragDropContext>
-        {this.state.deleteTask && (
+        {deleteTask && (
         <ConfirmationModal
-          show={this.state.deletePending}
+          show={deletePending}
           title="Delete task"
-          message={`Are you sure you want to delete ${this.state.deleteTask.name}?`}
+          message={`Are you sure you want to delete ${deleteTask.name}?`}
           onHide={this.cancelDeleteTask}
           onCancel={this.cancelDeleteTask}
-          onConfirm={() => this.deleteTask(this.state.deleteTask)}
+          onConfirm={() => this.deleteTask(deleteTask)}
         />
         )}
       </div>

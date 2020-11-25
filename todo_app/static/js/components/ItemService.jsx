@@ -1,10 +1,10 @@
 class ItemService {
-  constructor(api_url) {
-    this.api_url = api_url;
+  constructor(apiUrl) {
+    this.apiUrl = apiUrl;
   }
 
   retrieveItems() {
-    return fetch(this.api_url)
+    return fetch(this.apiUrl)
       .then((response) => {
         if (!response.ok) {
           this.handleResponseError(response);
@@ -17,7 +17,7 @@ class ItemService {
   }
 
   getItem(id) {
-    return fetch(this.api_url + id)
+    return fetch(this.apiUrl + id)
       .then((response) => {
         if (!response.ok) {
           this.handleResponseError(response);
@@ -30,7 +30,7 @@ class ItemService {
   }
 
   createItem(newitem, params = {}) {
-    return fetch(`${this.api_url}?${new URLSearchParams(params)}`, {
+    return fetch(`${this.apiUrl}?${new URLSearchParams(params)}`, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -50,7 +50,7 @@ class ItemService {
   }
 
   deleteItem(id) {
-    return fetch(this.api_url + id, {
+    return fetch(this.apiUrl + id, {
       method: 'DELETE',
       mode: 'cors',
     })
@@ -65,7 +65,7 @@ class ItemService {
   }
 
   updateItem(item, params = {}) {
-    return fetch(`${this.api_url + item.id}?${new URLSearchParams(params)}`, {
+    return fetch(`${this.apiUrl + item.id}?${new URLSearchParams(params)}`, {
       method: 'PUT',
       mode: 'cors',
       headers: {
@@ -84,12 +84,12 @@ class ItemService {
       });
   }
 
-  handleResponseError(response) {
+  static handleResponseError(response) {
     throw new Error(`HTTP error, status = ${response.status}`);
   }
 
-  handleError(error) {
-    console.log(error.message);
+  static handleError(error) {
+    throw new Error(error.message);
   }
 }
 
