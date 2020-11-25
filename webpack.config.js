@@ -2,6 +2,7 @@ module.exports = {
     entry: {
         main: "./todo_app/static/js/Home.jsx"
     },
+    resolve: {extensions: ['.js','.jsx']},
     module: {
         rules: [
             {
