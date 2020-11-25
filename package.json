@@ -10,7 +10,10 @@
     "lint": "eslint todo_app/static/js/**"
   },
   "jest": {
-    "reporters": [ "default", "jest-junit" ]
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
   },
   "jest-junit": {
     "outputName": "js_test_results.xml"
