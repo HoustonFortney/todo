@@ -2,8 +2,8 @@ import "../../css/tasklist.sass"
 import React from "react";
 import {Card, ListGroup} from "react-bootstrap"
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
-import ItemService from "./ItemService.jsx";
-import ConfirmationModal from "./ConfirmationModal.jsx"
+import ItemService from "./ItemService";
+import ConfirmationModal from "./ConfirmationModal"
 import TaskListItem from "./TaskListItem";
 import TaskAdder from "./TaskAdder";
 
