@@ -1,0 +1,107 @@
+[
+  {
+    "name": "Flask",
+    "description": "A simple framework for building complex web applications.",
+    "homepage_url": "https://flask.palletsprojects.com/en/1.1.x/",
+    "license_url": "https://github.com/pallets/flask/blob/master/LICENSE.rst",
+    "copyright": "2010 Pallets"
+  },
+  {
+    "name": "Jinja2",
+    "description": "A very fast and expressive template engine.",
+    "homepage_url": "https://jinja.palletsprojects.com/en/2.11.x/",
+    "license_url": "https://github.com/pallets/jinja/blob/master/LICENSE.rst",
+    "copyright": "2007 Pallets"
+  },
+  {
+    "name": "Werkzeug",
+    "description": "The comprehensive WSGI web application library.",
+    "homepage_url": "https://werkzeug.palletsprojects.com/en/1.0.x/",
+    "license_url": "https://github.com/pallets/werkzeug/blob/master/LICENSE.rst",
+    "copyright": "2007 Pallets"
+  },
+  {
+    "name": "Flask-Login",
+    "description": "User session management for Flask",
+    "homepage_url": "https://flask-login.readthedocs.io/en/latest/",
+    "license_url": "https://github.com/maxcountryman/flask-login/blob/main/LICENSE",
+    "copyright": "2011 Matthew Frazier"
+  },
+  {
+    "name": "Flask-MongoEngine",
+    "description": "Flask-MongoEngine is a Flask extension that provides integration with MongoEngine and WTF model forms.",
+    "homepage_url": "http://docs.mongoengine.org/projects/flask-mongoengine/en/latest/",
+    "license_url": "https://github.com/MongoEngine/flask-mongoengine/blob/master/LICENSE",
+    "copyright": "2010-2016 Ross Lawley"
+  },
+  {
+    "name": "MongoEngine",
+    "description": "MongoEngine is a Python Object-Document Mapper for working with MongoDB.",
+    "homepage_url": "http://docs.mongoengine.org/",
+    "license_url": "https://github.com/MongoEngine/mongoengine/blob/master/LICENSE",
+    "copyright": "2009 Harry Marr"
+  },
+  {
+    "name": "PyMongo",
+    "description": "Python driver for MongoDB",
+    "homepage_url": "https://pymongo.readthedocs.io/en/stable/",
+    "license_url": "https://github.com/mongodb/mongo-python-driver/blob/master/LICENSE",
+    "copyright": "MongoDB, Inc. 2008-present"
+  },
+  {
+    "name": "Flask-RESTX",
+    "description": "Fully featured framework for fast, easy and documented API development with Flask",
+    "homepage_url": "https://flask-restx.readthedocs.io/en/latest/",
+    "license_url": "https://github.com/python-restx/flask-restx/blob/master/LICENSE",
+    "copyright": "2013 Twilio, Inc; 2014 Axel Haustant"
+  },
+  {
+    "name": "jsonschema",
+    "description": "An implementation of JSON Schema validation for Python",
+    "homepage_url": "https://github.com/Julian/jsonschema",
+    "license_url": "https://github.com/Julian/jsonschema/blob/main/COPYING",
+    "copyright": "2013 Julian Berman"
+  },
+  {
+    "name": "React",
+    "description": "React is a JavaScript library for building user interfaces",
+    "homepage_url": "https://reactjs.org/",
+    "license_url": "https://github.com/facebook/react/blob/master/LICENSE",
+    "copyright": "Facebook, Inc. and its affiliates."
+  },
+  {
+    "name": "React Bootstrap",
+    "description": "Bootstrap 4 components built with React",
+    "homepage_url": "https://react-bootstrap.github.io/",
+    "license_url": "https://github.com/react-bootstrap/react-bootstrap/blob/master/LICENSE",
+    "copyright": "2014-present Stephen J. Collings, Matthew Honnibal, Pieter Vanderwerff"
+  },
+  {
+    "name": "Bootstrap",
+    "description": "The most popular front-end framework for developing responsive, mobile first projects on the web",
+    "homepage_url": "https://getbootstrap.com/",
+    "license_url": "https://github.com/twbs/bootstrap/blob/main/LICENSE",
+    "copyright": "2011-2020 Twitter, Inc."
+  },
+  {
+    "name": "React-Beautiful-DND",
+    "description": "Beautiful and accessible drag and drop for lists with React",
+    "homepage_url": "https://github.com/atlassian/react-beautiful-dnd",
+    "license_url": "https://github.com/atlassian/react-beautiful-dnd/blob/master/LICENSE",
+    "copyright": "2019 Atlassian Pty Ltd"
+  },
+  {
+    "name": "Showdown",
+    "description": "A Markdown to HTML converter written in Javascript",
+    "homepage_url": "https://github.com/showdownjs/showdown",
+    "license_url": "https://github.com/showdownjs/showdown/blob/master/LICENSE",
+    "copyright": "2018 ShowdownJS"
+  },
+  {
+    "name": "DOMPurify",
+    "description": "DOMPurify is a DOM-only, super-fast, uber-tolerant XSS sanitizer for HTML, MathML and SVG",
+    "homepage_url": "https://github.com/cure53/DOMPurify",
+    "license_url": "https://github.com/cure53/DOMPurify/blob/main/LICENSE",
+    "copyright": "2015 Mario Heiderich"
+  }
+]
