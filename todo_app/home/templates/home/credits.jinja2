@@ -1,0 +1,15 @@
+{% extends "base.jinja2" %}
+
+{% block body %}
+  <div class="container my-5">
+  <h1>Credits</h1>
+  This site benefits from the following open source projects. Thank you to all of the contributors.
+  {% for credit_item in credit_items %}
+    <div class="mt-3">
+      <h4><a href="{{ credit_item.homepage_url }}">{{ credit_item.name }}</a></h4>
+      {% if credit_item.description %}<div>{{ credit_item.description }}</div>{% endif %}
+      <div>&copy; {{ credit_item.copyright }} (<a href="{{ credit_item.license_url }}">view license</a>)</div>
+    </div>
+  {% endfor %}
+  </div>
+{% endblock %}
