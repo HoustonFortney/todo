@@ -7,7 +7,7 @@
     "watch": "webpack --watch --mode development",
     "build": "webpack --mode production",
     "test": "jest ./todo_app/static/js/test",
-    "lint": "eslint todo_app/static/js/**"
+    "lint": "eslint ./todo_app/static/js/**.*"
   },
   "jest": {
     "reporters": [
