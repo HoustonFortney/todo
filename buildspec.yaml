@@ -29,5 +29,5 @@ reports:
 
 artifacts:
   files:
-    - ./todo_app/static/dist/**.*
-  discard-paths: yes
+    - '**/*'
+  base-directory: './todo_app/static/dist'
