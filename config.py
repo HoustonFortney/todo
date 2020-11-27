@@ -7,6 +7,8 @@ class BaseConfig:
 
     RESTX_MASK_SWAGGER = False
 
+    CONTACT_EMAIL = 'contact@houstonfortney.com'
+
 
 class DebugConfig(BaseConfig):
     DEBUG = True
