@@ -1,6 +1,9 @@
+const CompressionPlugin = require("compression-webpack-plugin");
+
 module.exports = {
+    plugins: [new CompressionPlugin()],
     entry: {
-        main: "./todo_app/static/js/Home.jsx"
+        home: "./todo_app/static/js/Home.jsx"
     },
     resolve: {extensions: ['.js','.jsx']},
     module: {
@@ -16,7 +19,13 @@ module.exports = {
         ]
     },
     output: {
-        path: __dirname + "/todo_app/static/dist",
+        path: __dirname + "/todo_app/static/dist/js",
         filename: "[name].bundle.js"
+    },
+    optimization: {
+        splitChunks: {
+            chunks: "all",
+            name: "shared"
+        }
     }
 };
