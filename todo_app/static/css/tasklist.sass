@@ -5,28 +5,45 @@
     width: 100%
 
 .task-header
-  button.task-name, button.toggle-complete
-    &:not(:hover):not(:focus)
-      color: black
+  button.task-name:not(:hover), button.toggle-complete
+    color: black
+    text-decoration: none
 
-  button.task-name-complete
-    @extend button.task-name
+  display: flex
+  .task-name-container
+    flex-grow: 100
+    overflow: hidden
 
-    position: relative
+    button.task-name
+      text-align: left
+      max-width: 100%
 
-    &:after
-      content: ' '
-      position: absolute
-      top: 50%
-      left: 0
-      width: 100%
-      height: 1px
-      background: black
+      &:not(.expanded)
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
 
-    &.animate
-      &:after
-        animation-name: strikeout
-        animation-duration: 180ms
-        animation-timing-function: linear
-        animation-iteration-count: 1
-        animation-fill-mode: forwards
+    button.task-name-complete
+      @extend button.task-name
+
+      &:not(.expanded)
+        position: relative
+        &:after
+          content: ' '
+          position: absolute
+          top: 50%
+          left: 0
+          width: 100%
+          height: 1px
+          background: black
+
+        &.animate
+          &:after
+            animation-name: strikeout
+            animation-duration: 180ms
+            animation-timing-function: linear
+            animation-iteration-count: 1
+            animation-fill-mode: forwards
+
+  .action-buttons
+    white-space: nowrap
