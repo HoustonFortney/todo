@@ -103,5 +103,12 @@
     "homepage_url": "https://github.com/cure53/DOMPurify",
     "license_url": "https://github.com/cure53/DOMPurify/blob/main/LICENSE",
     "copyright": "2015 Mario Heiderich"
+  },
+  {
+    "name": "Font Awesome",
+    "description": "The web's most popular icon set and toolkit",
+    "homepage_url": "https://fontawesome.com/",
+    "license_url": "https://fontawesome.com/license/free",
+    "copyright": "Fonticons, Inc."
   }
 ]
