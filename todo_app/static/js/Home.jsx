@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Container from 'react-bootstrap/Container';
 import TaskList from './components/TaskList';
 import Footer from './components/Footer';
+import '../css/main.sass';
 
 const Home = () => (
   <Container className="d-flex flex-column min-vh-100">
