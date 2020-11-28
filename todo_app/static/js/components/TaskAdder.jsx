@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Form, ListGroup, InputGroup } from 'react-bootstrap';
+import {
+  Button, Form, ListGroup, InputGroup,
+} from 'react-bootstrap';
 
 class TaskAdder extends React.Component {
   constructor(props) {
