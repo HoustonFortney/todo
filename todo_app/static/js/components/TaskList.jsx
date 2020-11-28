@@ -1,4 +1,4 @@
-import './tasklist.sass';
+import './TaskList.sass';
 import React from 'react';
 import { Card, ListGroup } from 'react-bootstrap';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
