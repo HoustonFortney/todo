@@ -4,6 +4,9 @@ import Container from 'react-bootstrap/Container';
 import TaskList from './components/TaskList';
 import Footer from './components/Footer';
 import './main.sass';
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
 
 const Home = () => (
   <Container className="d-flex flex-column min-vh-100">
