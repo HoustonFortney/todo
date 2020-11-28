@@ -4,33 +4,20 @@
   100%
     width: 100%
 
-.task-header
-  button.task-name:not(:hover), button.toggle-complete
-    color: black
-    text-decoration: none
+$animation-time: 200ms
 
-  display: flex
-  .task-name-container
-    flex-grow: 100
-    overflow: hidden
-
-    // Leave space for the focus ring
-    padding: 3px
-    margin: -3px
-
+.task-list-item
+  &.task-complete
+    background-color: #eeeeee
+    &.animate
+      transition: background-color $animation-time
+  &:not(.expanded)
     button.task-name
-      text-align: left
-      max-width: 100%
-
-      &:not(.expanded)
-        overflow: hidden
-        white-space: nowrap
-        text-overflow: ellipsis
-
-    button.task-name-complete
-      @extend button.task-name
-
-      &:not(.expanded)
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+    &.task-complete
+      button.task-name
         position: relative
         &:after
           content: ' '
@@ -40,14 +27,28 @@
           width: 100%
           height: 1px
           background: black
-
-        &.animate
+      &.animate
+        button.task-name
           &:after
             animation-name: strikeout
-            animation-duration: 180ms
+            animation-duration: $animation-time
             animation-timing-function: linear
             animation-iteration-count: 1
             animation-fill-mode: forwards
 
+.task-header
+  display: flex
+  button.task-name:not(:hover), button.toggle-complete
+    color: black
+    text-decoration: none
+  .task-name-container
+    flex-grow: 100
+    overflow: hidden
+    // Leave space for the focus ring
+    padding: 3px
+    margin: -3px
+    button.task-name
+      text-align: left
+      max-width: 100%
   .action-buttons
     white-space: nowrap
