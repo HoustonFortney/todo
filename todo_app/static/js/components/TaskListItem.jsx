@@ -78,12 +78,17 @@ class TaskListItem extends React.Component {
       doAnimation, editTask, expanded, editing,
     } = this.state;
 
+    let itemClass = 'py-1 task-list-item';
+    itemClass += (task.complete ? ' task-complete' : '');
+    itemClass += (expanded ? ' expanded' : '');
+    itemClass += (doAnimation ? ' animate' : '');
+
     let buttonClass = (task.complete ? 'task-name-complete' : 'task-name');
     buttonClass += (expanded ? ' expanded' : '');
     buttonClass += (doAnimation ? ' animate' : '');
 
     return (
-      <ListGroup.Item className="task-list-item py-1">
+      <ListGroup.Item className={itemClass}>
         <div className="task-header">
           <Button variant="link" className="toggle-complete" onClick={this.toggleComplete}>
             {task.complete ? <i className="far fa-check-square" /> : <i className="far fa-square" />}
@@ -92,7 +97,7 @@ class TaskListItem extends React.Component {
           <div className="task-name-container">
             <Button
               variant="link"
-              className={buttonClass}
+              className="task-name"
               id="task-name"
               onClick={this.toggleExpanded}
             >
