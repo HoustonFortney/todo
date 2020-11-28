@@ -1,7 +1,13 @@
 const CompressionPlugin = require("compression-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-    plugins: [new CompressionPlugin()],
+    plugins: [
+        new CompressionPlugin(),
+        new CopyPlugin({
+            patterns: [{from: "./todo_app/static/favicon", to: "../favicon"}]
+        })
+    ],
     entry: {
         home: "./todo_app/static/js/Home.jsx"
     },

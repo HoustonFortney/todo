@@ -18,7 +18,7 @@ def create_app(config_object=DebugConfig):
 
     local_static_server = Blueprint('static',
                                     __name__,
-                                    static_folder='./static',
+                                    static_folder='./static/dist',
                                     static_url_path='',
                                     url_prefix='/')
 
