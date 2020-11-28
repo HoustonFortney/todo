@@ -49,5 +49,5 @@ class TestConfig(BaseConfig):
 
 
 class ProductionConfig(SecretConfig, BaseConfig):
-    SERVER_NAME = 'tododemo.houstonfortney.com'
+    SERVER_NAME = 'tododemo.us-east-2.elasticbeanstalk.com'
     STATIC_PATH = '//static.' + SERVER_NAME + '/' + BaseConfig.VERSION_STRING
