@@ -7,7 +7,7 @@
     "watch": "webpack --watch --mode development",
     "build": "webpack --mode production",
     "test": "jest ./todo_app/static/js/test",
-    "lint": "eslint ./todo_app/static/js/**.*"
+    "lint": "eslint ./todo_app/static/js --ext .js,.jsx"
   },
   "jest": {
     "reporters": [
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/HoustonFortney/todo#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
     "bootstrap": "^4.5.3",
     "dompurify": "^2.2.2",
     "react": "^17.0.1",
@@ -42,7 +43,6 @@
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
-    "@fortawesome/fontawesome-free": "^5.15.1",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.1",
     "compression-webpack-plugin": "^6.1.1",

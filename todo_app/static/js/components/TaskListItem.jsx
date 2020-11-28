@@ -38,7 +38,7 @@ class TaskListItem extends React.Component {
 
   toggleExpanded() {
     const { expanded } = this.state;
-    this.setState({ expanded: !expanded, doAnimation: false});
+    this.setState({ expanded: !expanded, doAnimation: false });
   }
 
   startEditing() {
@@ -83,17 +83,12 @@ class TaskListItem extends React.Component {
     itemClass += (expanded ? ' expanded' : '');
     itemClass += (doAnimation ? ' animate' : '');
 
-    let buttonClass = (task.complete ? 'task-name-complete' : 'task-name');
-    buttonClass += (expanded ? ' expanded' : '');
-    buttonClass += (doAnimation ? ' animate' : '');
-
     return (
       <ListGroup.Item className={itemClass}>
         <div className="task-header">
           <Button variant="link" className="toggle-complete" onClick={this.toggleComplete}>
             {task.complete ? <i className="far fa-check-square" /> : <i className="far fa-square" />}
           </Button>
-          {/*<div className="test-task-name"><Button onClick={this.toggleExpanded}>{editTask.name}</Button></div>*/}
           <div className="task-name-container">
             <Button
               variant="link"
