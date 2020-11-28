@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, ListGroup } from 'react-bootstrap';
+import { Button, Form, ListGroup, InputGroup } from 'react-bootstrap';
 
 class TaskAdder extends React.Component {
   constructor(props) {
@@ -41,22 +41,25 @@ class TaskAdder extends React.Component {
     const { name } = this.state;
 
     return (
-      <ListGroup.Item>
-        <Form id="task-adder" inline onSubmit={(event) => event.preventDefault()}>
-          <span className="btn"><i className="fas fa-plus" /></span>
-          <Form.Control
-            id="task-name"
-            className="w-75"
-            placeholder="New task"
-            name="name"
-            autoComplete="off"
-            value={name}
-            onKeyDown={this.handleKeyDown}
-            onChange={this.handleInputChange}
-          />
-          <Button id="create-task-button" type="submit" onClick={this.onCreate}>
-            Create
-          </Button>
+      <ListGroup.Item className="d-flex py-1">
+        <span className="btn"><i className="fas fa-plus" /></span>
+        <Form id="task-adder" className="w-100" onSubmit={(event) => event.preventDefault()}>
+          <InputGroup className="w-100">
+            <Form.Control
+              id="task-name"
+              placeholder="New task"
+              name="name"
+              autoComplete="off"
+              value={name}
+              onKeyDown={this.handleKeyDown}
+              onChange={this.handleInputChange}
+            />
+            <InputGroup.Append>
+              <Button id="create-task-button" type="submit" onClick={this.onCreate}>
+                Create
+              </Button>
+            </InputGroup.Append>
+          </InputGroup>
         </Form>
       </ListGroup.Item>
     );

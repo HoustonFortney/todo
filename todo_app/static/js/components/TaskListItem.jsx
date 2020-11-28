@@ -38,7 +38,7 @@ class TaskListItem extends React.Component {
 
   toggleExpanded() {
     const { expanded } = this.state;
-    this.setState({ expanded: !expanded });
+    this.setState({ expanded: !expanded, doAnimation: false});
   }
 
   startEditing() {
@@ -78,25 +78,32 @@ class TaskListItem extends React.Component {
       doAnimation, editTask, expanded, editing,
     } = this.state;
 
-    const buttonClass = (task.complete ? 'task-name-complete' : 'task-name') + (doAnimation ? ' animate' : '');
+    let buttonClass = (task.complete ? 'task-name-complete' : 'task-name');
+    buttonClass += (expanded ? ' expanded' : '');
+    buttonClass += (doAnimation ? ' animate' : '');
 
     return (
-      <ListGroup.Item className="task-list-item">
+      <ListGroup.Item className="task-list-item py-1">
         <div className="task-header">
           <Button variant="link" className="toggle-complete" onClick={this.toggleComplete}>
             {task.complete ? <i className="far fa-check-square" /> : <i className="far fa-square" />}
           </Button>
-          <Button
-            variant="link"
-            className={buttonClass}
-            id="task-name"
-            onClick={this.toggleExpanded}
-          >
-            {editTask.name}
-          </Button>
-          {expanded && (editing
-            ? <CancelSaveButtons onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits} />
-            : <EditDeleteButtons onEdit={this.startEditing} onDelete={this.deleteTask} />)}
+          {/*<div className="test-task-name"><Button onClick={this.toggleExpanded}>{editTask.name}</Button></div>*/}
+          <div className="task-name-container">
+            <Button
+              variant="link"
+              className={buttonClass}
+              id="task-name"
+              onClick={this.toggleExpanded}
+            >
+              {editTask.name}
+            </Button>
+          </div>
+          <div className="action-buttons">
+            {expanded && (editing
+              ? <CancelSaveButtons onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits} />
+              : <EditDeleteButtons onEdit={this.startEditing} onDelete={this.deleteTask} />)}
+          </div>
         </div>
         <Collapse in={expanded}>
           <div>
@@ -117,11 +124,11 @@ const EditDeleteButtons = (props) => {
 
   return (
     <span className="float-right">
-      <Button onClick={onEdit}>
+      <Button className="ml-1" onClick={onEdit}>
         <i className="far fa-edit" />
         <span className="d-none d-md-inline-block">&nbsp;Edit</span>
       </Button>
-      <Button variant="danger" onClick={onDelete}>
+      <Button variant="danger" className="ml-1" onClick={onDelete}>
         <i className="far fa-trash-alt" />
         <span className="d-none d-md-inline-block">&nbsp;Delete</span>
       </Button>
@@ -134,11 +141,11 @@ const CancelSaveButtons = (props) => {
 
   return (
     <span className="float-right">
-      <Button variant="outline-secondary" onClick={onCancelEdit}>
+      <Button variant="outline-secondary" className="ml-1" onClick={onCancelEdit}>
         <i className="fas fa-undo" />
         <span className="d-none d-md-inline-block">&nbsp;Cancel</span>
       </Button>
-      <Button onClick={onSaveEdit}>
+      <Button className="ml-1" onClick={onSaveEdit}>
         <i className="far fa-save" />
         <span className="d-none d-md-inline-block">&nbsp;Save</span>
       </Button>
