@@ -1,6 +1,3 @@
-from secrets import SecretConfig
-
-
 class BaseConfig:
     APP_NAME = 'TODO App'
     VERSION_STRING = '1.0.0'
@@ -48,6 +45,6 @@ class TestConfig(BaseConfig):
     TEST_SERVER_PORT = 8943
 
 
-class ProductionConfig(SecretConfig, BaseConfig):
+class ProductionConfig(BaseConfig):
     SERVER_NAME = 'tododemo.us-east-2.elasticbeanstalk.com'
     STATIC_PATH = '//static.' + SERVER_NAME + '/' + BaseConfig.VERSION_STRING
