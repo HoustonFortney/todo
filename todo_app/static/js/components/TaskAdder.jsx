@@ -44,7 +44,7 @@ class TaskAdder extends React.Component {
 
     return (
       <ListGroup.Item className="d-flex py-1">
-        <span className="btn"><i className="fas fa-plus" /></span>
+        <Button variant="link" className="add-task-icon" onClick={() => { this.nameInput.focus(); }}><i className="fas fa-plus" /></Button>
         <Form id="task-adder" className="w-100" onSubmit={(event) => event.preventDefault()}>
           <InputGroup className="w-100">
             <Form.Control
@@ -55,6 +55,7 @@ class TaskAdder extends React.Component {
               value={name}
               onKeyDown={this.handleKeyDown}
               onChange={this.handleInputChange}
+              ref={(input) => { this.nameInput = input; }}
             />
             <InputGroup.Append>
               <Button id="create-task-button" type="submit" onClick={this.onCreate}>
