@@ -23,15 +23,15 @@ const TextWithInfo = (props) => {
   };
 
   return (
-    <OverlayTrigger trigger="focus" placement="right" overlay={InfoTooltip}>
-      <span>
-        {text}
-        <>&nbsp;</>
-        <Button style={infoButtonStyle} variant="link">
+    <span>
+      {text}
+      <>&nbsp;</>
+      <OverlayTrigger trigger="click" placement="right" overlay={InfoTooltip}>
+        <Button tabIndex={0} style={infoButtonStyle} variant="link">
           <i className="fas fa-info-circle" />
         </Button>
-      </span>
-    </OverlayTrigger>
+      </OverlayTrigger>
+    </span>
   );
 };
 
