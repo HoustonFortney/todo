@@ -68,8 +68,9 @@ class TaskListItem extends React.Component {
 
   toggleComplete() {
     const { task, onUpdate } = this.props;
-    onUpdate({ id: task.id, complete: !task.complete });
-    this.setState({ doAnimation: true });
+    task.complete = !task.complete;
+    this.setState({ doAnimation: true, editTask: task });
+    onUpdate({ id: task.id, complete: task.complete });
   }
 
   render() {
