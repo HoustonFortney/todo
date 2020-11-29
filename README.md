@@ -1,13 +1,15 @@
 Todo App
 ===
 
+![Build Status](https://codebuild.us-east-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiczZKUWx5Mi9vQzBkQXF0eEJDbUJFdS83b09FdzRmZGlBN2VleDZyUEp3QnR4UEhHRE1YeGRoaUVpSFdGMVd4YWVOcFZvaDY2WUphRitRQnh4Q0FXZE1jPSIsIml2UGFyYW1ldGVyU3BlYyI6IjZVQ0RzNFl0VGhKRjcvajMiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main)
+
 The purpose of this project is to test drive the
 [React](https://reactjs.org/) + 
 [Flask](https://flask.palletsprojects.com/) + 
 [MongoDB](https://www.mongodb.com/) stack.
 See architecture details [here](./docs/CONTRIBUTING.md).
 
-[![Screenshot of Home](./docs/home.png)](http://tododemo.houstonfortney.com)
+[![Screenshot of Home](./docs/home.gif)](http://tododemo.houstonfortney.com)
 
 Checkout the **[live demo](tododemo.houstonfortney.com)**!
 
