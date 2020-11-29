@@ -161,7 +161,7 @@ const TaskDetails = (props) => {
       {task.location && (
       <p>
         <strong>Location</strong>
-        <>&nbsp;</>
+        {'\xA0'}
         {task.location}
       </p>
       )}

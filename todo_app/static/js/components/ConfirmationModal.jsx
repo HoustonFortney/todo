@@ -19,7 +19,7 @@ const ConfirmationModal = (props) => {
         </Button>
         <Button variant="danger" onClick={onConfirm}>
           <i className="far fa-trash-alt" />
-          <>&nbsp;Delete</>
+          {'\xA0Delete'}
         </Button>
       </Modal.Footer>
     </Modal>
