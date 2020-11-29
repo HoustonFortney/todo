@@ -7,7 +7,7 @@ from .demo_login_system import demo_login_manager
 
 
 def create_app(config_object=DebugConfig):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='./static/dist', static_url_path='/static')
     app.config.from_object(config_object)
 
     debug_toolbar = DebugToolbarExtension()
