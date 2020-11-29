@@ -25,7 +25,7 @@ const TextWithInfo = (props) => {
   return (
     <span>
       {text}
-      <>&nbsp;</>
+      {'\xA0'}
       <OverlayTrigger trigger="click" placement="right" overlay={InfoTooltip}>
         <Button tabIndex={0} style={infoButtonStyle} variant="link">
           <i className="fas fa-info-circle" />
