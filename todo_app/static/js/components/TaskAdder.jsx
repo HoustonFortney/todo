@@ -43,7 +43,7 @@ class TaskAdder extends React.Component {
     const { name } = this.state;
 
     return (
-      <ListGroup.Item className="d-flex py-1">
+      <ListGroup.Item className="task-adder-item d-flex py-1">
         <Button variant="link" className="add-task-icon" onClick={() => { this.nameInput.focus(); }}><i className="fas fa-plus" /></Button>
         <Form id="task-adder" className="w-100" onSubmit={(event) => event.preventDefault()}>
           <InputGroup className="w-100">
