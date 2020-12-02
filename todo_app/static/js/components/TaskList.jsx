@@ -150,7 +150,7 @@ class TaskList extends React.Component {
         <DragDropContext onDragEnd={this.updateTaskOrder}>
           <Droppable droppableId="droppable">
             {(provided) => (
-              <Card {...provided.droppableProps} ref={provided.innerRef}>
+              <Card {...provided.droppableProps} ref={provided.innerRef} className="border-0">
                 {taskList}
                 {provided.placeholder}
               </Card>
