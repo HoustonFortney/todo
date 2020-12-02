@@ -47,6 +47,6 @@ class TestConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
     SERVER_NAME = 'tododemo.houstonfortney.com'
-    STATIC_PATH = '//static.' + SERVER_NAME + '/' + BaseConfig.VERSION_STRING
+    STATIC_PATH = 'https://static.' + SERVER_NAME + '/' + BaseConfig.VERSION_STRING
 
     SECRETS_BUCKET_NAME = 'tododemo-secrets'
