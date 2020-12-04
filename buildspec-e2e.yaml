@@ -5,6 +5,8 @@ phases:
     runtime-versions:
       python: 3.7
     commands:
+      - apt-get update -y
+      - apt-get install -y xvfb
       - pip install tox
       - npm install
   build:
@@ -12,6 +14,7 @@ phases:
       - npm run build
   post_build:
     commands:
+      - export USE_VIRTUAL_DISPLAY=TRUE
       - tox -e end_to_end
 
 reports:

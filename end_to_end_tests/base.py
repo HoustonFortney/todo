@@ -1,6 +1,7 @@
+import os
 import unittest
 from multiprocessing.context import Process
-
+from pyvirtualdisplay import Display
 from selenium import webdriver
 from waitress import serve
 
@@ -9,6 +10,10 @@ from todo_app import create_app
 
 
 app = create_app(TestConfig)
+
+if 'USE_VIRTUAL_DISPLAY' in os.environ:
+    display = Display(visible=0, size=(800, 800))
+    display.start()
 
 
 def run_test_server():
