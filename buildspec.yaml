@@ -16,6 +16,7 @@ phases:
       - tox -e pylint
       - npm run lint
       - python versioning.py
+      - set
   build:
     commands:
       - npm run build
