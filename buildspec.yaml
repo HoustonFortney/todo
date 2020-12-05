@@ -33,6 +33,8 @@ reports:
       - 'js_test_results.xml'
 
 artifacts:
+  files:
+    - '**/*'
   secondary-artifacts:
     AppServerArtifact:
       name: app_server
