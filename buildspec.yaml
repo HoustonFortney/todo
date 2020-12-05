@@ -38,7 +38,8 @@ artifacts:
     - '**/*'
   base-directory: './todo_app/static/dist'
   secondary-artifacts:
-    app_server:
+    app_server_artifact:
       files:
         - '**/*'
       base-directory: '.'
+      name: app_server
