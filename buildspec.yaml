@@ -35,7 +35,7 @@ reports:
 artifacts:
   files:
     - '**/*'
-  base-directory: '.'
+  base-directory: './todo_app/static/dist'
   secondary-artifacts:
     AppServerArtifact:
       name: app_server
