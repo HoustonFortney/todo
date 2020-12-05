@@ -1,8 +1,10 @@
 from datetime import timedelta
+from versioning import get_version_number
+
 
 class BaseConfig:
     APP_NAME = 'TODO App'
-    VERSION_STRING = '1.0.0'
+    VERSION_STRING = get_version_number()
 
     RESTX_MASK_SWAGGER = False
 

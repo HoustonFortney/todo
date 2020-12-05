@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  exported-variables:
+    - APP_VERSION
+
 phases:
   install:
     runtime-versions:
@@ -11,6 +15,7 @@ phases:
     commands:
       - tox -e pylint
       - npm run lint
+      - python versioning.py
   build:
     commands:
       - npm run build
