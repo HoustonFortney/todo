@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 class BaseConfig:
     APP_NAME = 'TODO App'
     VERSION_STRING = '1.0.0'
@@ -5,6 +7,8 @@ class BaseConfig:
     RESTX_MASK_SWAGGER = False
 
     CONTACT_EMAIL = 'contact@houstonfortney.com'
+
+    PERMANENT_SESSION_LIFETIME = timedelta(days=30)
 
 
 class DebugConfig(BaseConfig):
