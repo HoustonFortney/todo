@@ -5,8 +5,6 @@ import os
 def write_build_number_file():
     build_number = os.environ['CODEBUILD_BUILD_NUMBER']
 
-    print(f'Found build number {build_number}. Writing file...')
-
     with open('build_number.json', mode='w') as build_number_file:
         json.dump({'build_number': build_number}, build_number_file)
 
@@ -27,5 +25,4 @@ def get_version_number():
 if __name__ == '__main__':
     # This is executed by the build server
     write_build_number_file()
-    os.environ['APP_VERSION'] = get_version_number()
-    print(os.environ['APP_VERSION'])
+    print(get_version_number())

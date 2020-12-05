@@ -15,8 +15,7 @@ phases:
     commands:
       - tox -e pylint
       - npm run lint
-      - python versioning.py
-      - set
+      - APP_VERSION=$(python versioning.py)
   build:
     commands:
       - npm run build
@@ -34,6 +33,12 @@ reports:
       - 'js_test_results.xml'
 
 artifacts:
+  name: static
   files:
     - '**/*'
   base-directory: './todo_app/static/dist'
+  secondary-artifacts:
+    app_server:
+      files:
+        - '**/*'
+      base-directory: '.'
