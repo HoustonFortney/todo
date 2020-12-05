@@ -5,7 +5,7 @@ import TaskList from './components/TaskList';
 import Footer from './components/Footer';
 
 const Home = () => (
-  <Container className="d-flex flex-column min-vh-100">
+  <Container className="d-flex flex-column min-vh-100 pt-2">
     <h1>Tasks</h1>
     <TaskList />
     <Footer />
