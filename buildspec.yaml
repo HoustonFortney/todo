@@ -42,8 +42,3 @@ artifacts:
       files:
         - '**/*'
       base-directory: '.'
-    StaticArtifact:
-      name: static
-      files:
-        - '**/*'
-      base-directory: './todo_app/static/dist'
