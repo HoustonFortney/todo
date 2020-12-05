@@ -8,10 +8,6 @@ phases:
       - apt-get update -y
       - apt-get install -y xvfb
       - pip install tox
-      - npm install
-  build:
-    commands:
-      - npm run build
   post_build:
     commands:
       - export USE_VIRTUAL_DISPLAY=TRUE
