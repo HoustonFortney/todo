@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  exported-variables:
+    - APP_VERSION
+
 phases:
   install:
     runtime-versions:
@@ -11,6 +15,7 @@ phases:
     commands:
       - tox -e pylint
       - npm run lint
+      - APP_VERSION=$(python versioning.py)
   build:
     commands:
       - npm run build
@@ -31,3 +36,14 @@ artifacts:
   files:
     - '**/*'
   base-directory: './todo_app/static/dist'
+  secondary-artifacts:
+    AppServerArtifact:
+      name: app_server
+      files:
+        - '**/*'
+      base-directory: '.'
+    StaticArtifact:
+      name: static
+      files:
+        - '**/*'
+      base-directory: './todo_app/static/dist'
