@@ -35,6 +35,7 @@ reports:
 artifacts:
   files:
     - '**/*'
+  base-directory: '.'
   secondary-artifacts:
     AppServerArtifact:
       name: app_server
