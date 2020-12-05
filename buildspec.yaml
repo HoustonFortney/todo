@@ -33,9 +33,6 @@ reports:
       - 'js_test_results.xml'
 
 artifacts:
-  files:
-    - '**/*'
-  base-directory: './todo_app/static/dist'
   secondary-artifacts:
     AppServerArtifact:
       name: app_server
