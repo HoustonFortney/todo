@@ -18,5 +18,6 @@ def load_user(request):
         user = User(username='Demo User', addr=request.access_route[0])
         user.save()
         session['user_id'] = str(user.id)
+        session.permanent = True
 
     return user
