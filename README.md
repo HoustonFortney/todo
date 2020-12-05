@@ -7,9 +7,9 @@ The purpose of this repo is to test drive the
 [React](https://reactjs.org/) + 
 [Flask](https://flask.palletsprojects.com/) + 
 [MongoDB](https://www.mongodb.com/) stack.
-See architecture details [here](./docs/CONTRIBUTING.md).
+See details [here](./docs/CONTRIBUTING.md).
 
-Checkout the **[live demo](tododemo.houstonfortney.com)**!
+Checkout the **[live demo](http://tododemo.houstonfortney.com)**!
 
 *Note: A demo user account will automatically be created. Tasks will live for 30 days on the demo site.*
 
