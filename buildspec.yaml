@@ -34,12 +34,12 @@ reports:
 
 artifacts:
   secondary-artifacts:
-    app_server_artifact:
+    AppServerArtifact:
       name: app_server
       files:
         - '**/*'
       base-directory: '.'
-    static_artifact:
+    StaticArtifact:
       name: static
       files:
         - '**/*'
