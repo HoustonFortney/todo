@@ -21,6 +21,7 @@
         "linebreak-style": 0,
         "no-plusplus": 0,
         "react/prop-types": 0,
-        "react/jsx-props-no-spreading": 0
+        "react/jsx-props-no-spreading": 0,
+        "max-len": ["error", {"code":  120}]
     }
 }

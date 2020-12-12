@@ -79,7 +79,7 @@ class TaskListItem extends React.Component {
       doAnimation, editTask, expanded, editing,
     } = this.state;
 
-    let itemClass = 'py-1 task-list-item';
+    let itemClass = 'py-1  px-2 task-list-item';
     itemClass += (task.complete ? ' task-complete' : '');
     itemClass += (expanded ? ' expanded' : '');
     itemClass += (doAnimation ? ' animate' : '');
@@ -100,11 +100,14 @@ class TaskListItem extends React.Component {
               {editTask.name}
             </Button>
           </div>
-          <div className="action-buttons">
-            {expanded && (editing
-              ? <CancelSaveButtons onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits} />
-              : <EditDeleteButtons onEdit={this.startEditing} onDelete={this.deleteTask} />)}
-          </div>
+          {expanded
+            && (
+            <div className="action-buttons mr-3">
+              {editing
+                ? <CancelSaveButtons onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits} />
+                : <EditDeleteButtons onEdit={this.startEditing} onDelete={this.deleteTask} />}
+            </div>
+            )}
         </div>
         <Collapse in={expanded}>
           <div>
