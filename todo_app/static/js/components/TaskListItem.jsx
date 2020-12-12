@@ -93,7 +93,7 @@ class TaskListItem extends React.Component {
           <div className="task-name-container">
             <Button
               variant="link"
-              className="task-name"
+              className="task-name px-2 mx-1"
               id="task-name"
               onClick={this.toggleExpanded}
             >
