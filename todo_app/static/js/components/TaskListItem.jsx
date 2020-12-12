@@ -100,14 +100,11 @@ class TaskListItem extends React.Component {
               {editTask.name}
             </Button>
           </div>
-          {expanded
-            && (
-            <div className="action-buttons mr-3">
-              {editing
-                ? <CancelSaveButtons onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits} />
-                : <EditDeleteButtons onEdit={this.startEditing} onDelete={this.deleteTask} />}
-            </div>
-            )}
+          <div className="action-buttons mr-3">
+            {expanded && (editing
+              ? <CancelSaveButtons onCancelEdit={this.cancelEditing} onSaveEdit={this.saveEdits} />
+              : <EditDeleteButtons onEdit={this.startEditing} onDelete={this.deleteTask} />)}
+          </div>
         </div>
         <Collapse in={expanded}>
           <div>
