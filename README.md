@@ -1,4 +1,4 @@
-Todo App
+Basic Task App
 ===
 
 ![Build Status](https://codebuild.us-east-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiczZKUWx5Mi9vQzBkQXF0eEJDbUJFdS83b09FdzRmZGlBN2VleDZyUEp3QnR4UEhHRE1YeGRoaUVpSFdGMVd4YWVOcFZvaDY2WUphRitRQnh4Q0FXZE1jPSIsIml2UGFyYW1ldGVyU3BlYyI6IjZVQ0RzNFl0VGhKRjcvajMiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main)
@@ -9,11 +9,7 @@ The purpose of this repo is to test drive the
 [MongoDB](https://www.mongodb.com/) stack.
 See details [here](./docs/CONTRIBUTING.md).
 
-Checkout the **[live demo](http://tododemo.houstonfortney.com)**!
-
-*Note: A demo user account will automatically be created. Tasks will live for 30 days on the demo site.*
-
-[![Screenshot of Home](./docs/home.gif)](http://tododemo.houstonfortney.com)
+![Screenshot of Home](./docs/home.gif)
 
 Feature Set
 ---
